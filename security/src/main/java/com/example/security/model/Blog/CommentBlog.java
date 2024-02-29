@@ -1,15 +1,13 @@
 package com.example.security.model.Blog;
 
 import com.example.security.model.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 @Entity
 public class CommentBlog {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private String content;
     private LocalDateTime dateTime;
@@ -69,5 +67,6 @@ public class CommentBlog {
     }
 
     public CommentBlog() {
+        this.dateTime = LocalDateTime.now();
     }
 }

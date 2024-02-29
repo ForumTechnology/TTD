@@ -92,12 +92,15 @@ public class BlogController {
         String email = principal.getName();
         userTemp.setEmail(email);
 
+        User user = iUserService.findUserByEmail(email);
+
         //them luot view
         int temp = blog.getViewBlog();
         temp+=1;
         blog.setViewBlog(temp);
         iBlogService.save(blog);
 
+        mv.addObject("userBlog",user);
         mv.addObject("user",userTemp);
         mv.addObject("comment",iCommentBlogService.findAllCommentBlogs());
         mv.addObject("blog",blog);
@@ -169,6 +172,17 @@ public class BlogController {
         Blog blog = iBlogService.findOne(id);
         blog.setStatus(true);
         iBlogService.save(blog);
+        return mv;
+    }
+
+    @PostMapping("/postComment")
+    public ModelAndView postComment(@RequestParam("id") Long id,@RequestParam("idUser") Long idUser,@RequestParam("comment") String comment,Model model) {
+        ModelAndView mv = new ModelAndView("redirect:/" + id + "/viewBlog");
+        CommentBlog commentBlog = new CommentBlog();
+        commentBlog.setBlog(iBlogService.findOne(id));
+        commentBlog.setContent(comment);
+        commentBlog.setUser(iUserService.findUserById(idUser).get());
+        iCommentBlogService.save(commentBlog);
         return mv;
     }
 }

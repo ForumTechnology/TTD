@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/home.css">
+    <link rel="stylesheet" href="../static/homeStyle.css">
     <title>Document</title>
 
     <!-- Thêm thư viện Bootstrap -->
@@ -66,7 +66,8 @@
                             <a th:href="@{/showDuyetBai}"><i class="fa-solid fa-list-check"></i></a>
                         </div>
                         <i class="fa-solid fa-user"></i>
-                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <a href="/"><i class="fa-solid fa-right-from-bracket"></i></a>
+
                     </div>
                 </div>
             </div>
@@ -164,26 +165,14 @@
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-                        <div class="text-center" th:unless="${list.isEmpty()}">
-                            <a th:href="@{/showListBlog/(page=${list.number -1},nameSearch='a')}"
-                               th:if="${list.hasPrevious()}">Prev</a>
-                            <!--    Cách 1-->
-                            <span th:text="${list.number + 1}"></span> / <span th:text="${list.totalPages}"></span><br>
-                            <!--    Cách 2-->
-                            <th:block th:each="i: ${pages}">
-                                <a th:href="@{/(page=${i - 1})}"
-                                   th:text="${i}">Prev</a>
-                            </th:block>
-                            <a th:href="@{/showListBlog/(page=${list.number + 1})}"
-                               th:if="${list.hasNext()}">Next</a>
-                        </div>
-<!--                        <li class="page-item"><a class="page-link" href="#">1</a></li>-->
-<!--                        <li class="page-item"><a class="page-link" href="#">2</a></li>-->
-<!--                        <li class="page-item"><a class="page-link" href="#">3</a></li>-->
-<!--                        <li class="page-item">-->
-<!--                            <a class="page-link" href="#" aria-label="Next">-->
-<!--                                <span aria-hidden="true">&raquo;</span>-->
-<!--                            </a>-->
+
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
                         </li>
                     </ul>
                 </nav>
@@ -262,5 +251,223 @@
 
 
 </body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap');
 
+    h2,
+    h1,
+    h3,
+    h4,
+    a,
+    span,
+    p {
+        font-family: 'Nunito', sans-serif;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        box-sizing: border-box;
+        border: none;
+        outline: none;
+        font-family: 'Nunito', sans-serif;
+    }
+
+    .bg-header {
+        background-image: url('https://w.forfun.com/fetch/ae/ae2cbe4c74a79df332455ab8fe742e7c.jpeg');
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 250px;
+        width: 100%;
+    }
+
+    .navbar {
+        width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .icon i,
+    .user i {
+        padding: 10px;
+        color: white;
+        font-size: 25px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .icon i:hover,
+    .user i:hover {
+        color: #ff5722;
+        border-top: 3px solid #ff5722;
+    }
+
+    .bg-header h1 {
+        color: white;
+        text-align: center;
+        font-size: 50px;
+        padding: 20px 0;
+    }
+
+    .focus-in-expand {
+        animation: focus-in-expand 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
+
+    @keyframes focus-in-expand {
+        0% {
+            letter-spacing: -0.5em;
+            filter: blur(12px);
+            opacity: 0;
+        }
+
+        100% {
+            filter: blur(0px);
+            opacity: 1;
+        }
+    }
+
+    .container-search {
+        width: 1200px;
+        height: 64px;
+        margin: -30px auto;
+    }
+
+    .container-search input {
+        background-color: #2d2d2d;
+        color: #ff5722;
+        padding: 0 30px;
+        width: 1100px;
+        height: 100%;
+    }
+
+    .container-search button {
+        color: white;
+        width: 100px;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(255, 152, 0, 1) 0%, rgba(255, 87, 34, 1) 100%);
+    }
+
+    .wrap-content {
+        width: 1200px;
+        margin: 80px auto;
+        overflow: hidden;
+    }
+
+    .content {
+        background-color: #2d2d2d;
+        width: 100%;
+        height: 100%;
+
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        color: white;
+        background-color: #333;
+        padding: 10px;
+        text-align: left;
+    }
+
+    td {
+        padding: 10px;
+        color: #CCCCCC;
+        border-bottom: 1px solid #444;
+    }
+
+    td a {
+        color: #ff5722;
+    }
+
+    td a:hover {
+        color: rgb(244, 181, 86);
+    }
+
+    .topic {
+        max-width: 550px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .view,
+    .like,
+    .date {
+        width: 150px;
+    }
+
+    .date {
+        width: 250px;
+    }
+
+    tr {
+        border-bottom: 1px solid #444 !important;
+    }
+
+    tr:hover {
+        background-color: #444;
+    }
+
+    .post-panigation {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn {
+        border-radius: 0 !important;
+        background-color: #ff5722 !important;
+        color: white !important;
+        padding: 10px 15px;
+    }
+
+    .btn:hover {
+        background-color: rgb(244, 181, 86) !important;
+    }
+
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .page-item {
+        margin-right: 5px;
+    }
+
+    .page-link {
+        border-radius: 0 !important;
+        background-color: #ff5722 !important;
+        color: white !important;
+        padding: 10px 15px;
+        border: 1px solid #ff5722 !important;
+    }
+
+    .page-link:hover {
+        background-color: rgb(244, 181, 86) !important;
+        border-color: rgb(244, 181, 86) !important;
+    }
+
+    .regulations {
+        margin-top: 40px;
+    }
+
+    li,
+    ul {
+        color: #CCCCCC !important;
+    }
+
+    .footer i {
+        padding: 20px 20px;
+        color: white !important;
+        font-size: 30px;
+    }
+</style>
 </html>

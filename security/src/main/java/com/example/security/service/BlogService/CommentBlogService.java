@@ -15,6 +15,11 @@ public class CommentBlogService implements ICommentBlogService {
     public List<CommentBlog> findAllCommentBlogs() {
         return commentBlogRepo.findAll();
     }
+
+    @Override
+    public void save(CommentBlog commentBlog) {
+        commentBlogRepo.save(commentBlog);
+    }
 }
 
 

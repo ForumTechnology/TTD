@@ -2,6 +2,7 @@ package com.example.security.model.Blog;
 
 import com.example.security.model.User;
 import jakarta.persistence.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -14,6 +15,8 @@ public class Blog {
     private Long id;
     private String name;
 
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String type;
     private int likeBlog;
     private int viewBlog;
