@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class BlogController {
@@ -154,5 +155,20 @@ public class BlogController {
         s.setCategory(category);
         iBlogService.addNewBlog(s);
         return "redirect:/showListBlog";
+    }
+
+    @GetMapping("/showDuyetBai")
+    public String showDuyetBai(Model model){
+        model.addAttribute("blog",iBlogService.findAlll());
+        return "duyetBaiViet";
+    }
+
+    @GetMapping("/xacNhanDuyetBai")
+    public ModelAndView duyetBai(@RequestParam("id")Long id,Model model){
+        ModelAndView mv = new ModelAndView("redirect:/showDuyetBai");
+        Blog blog = iBlogService.findOne(id);
+        blog.setStatus(true);
+        iBlogService.save(blog);
+        return mv;
     }
 }

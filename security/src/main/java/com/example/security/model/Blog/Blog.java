@@ -55,6 +55,7 @@ public class Blog {
 
     public Blog() {
         this.creationDate = LocalDateTime.now();
+        this.status = false;
     }
 
 
