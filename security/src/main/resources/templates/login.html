@@ -10,87 +10,64 @@
     <title>Login</title>
 </head>
 <body>
-<a class=" btn btn-primary" style="float: right" th:href="@{/user/showRegister}">Register</a>
+
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="float: right">Login</button>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div>
-                        <div>
-                            <h1>Login Form</h1>
-                            <div th:if="${param.error}">
-                                <div class="alert alert-danger">Invalid Email or Password !!!</div>
-                            </div>
-                            <div th:if="${param.logout}">
-                                <div class="alert alert-success">You have been logged out !!!</div>
-                            </div>
-                            <form
-                                    class="form-horizontal"
-                                    method="post"
-                                    role="form"
-                                    th:action="@{/login}"
-                            >
-                                <div class="mb-3">
-                                    <label class="form-label" for="password">Email</label>
-                                    <input class="form-control" id="username" name="username" placeholder="Enter email address"
-                                           type="email">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="col-sm-2 col-form-label" for="password">Password</label>
-                                    <input class="form-control" id="password" name="password" placeholder="Enter password"
-                                           type="password">
-                                </div>
-                                <div class="mb-3">
-                                    <input id="remember-me" name="remember-me"
-                                           type="checkbox">
-                                    <label for="remember-me">Remember me</label>
-                                </div>
-                                <div class="mb-3">
-                                    <button class="btn btn-primary mb-3" type="submit">Login</button>
-
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+<h1 style="text-align: center">Login Form</h1>
+<div th:if="${param.error}">
+    <div class="alert alert-danger">Invalid Email or Password !!!</div>
+</div>
+<div th:if="${param.logout}">
+    <div class="alert alert-success">You have been logged out !!!</div>
+</div>
+<div class="container">
+    <form class="form-horizontal mx-auto" method="post" role="form" th:action="@{/login}">
+        <div class="mb-3">
+            <label class="form-label" for="password">Email</label>
+            <input class="form-control" id="username" name="username" placeholder="Enter email address"
+                   type="email">
         </div>
-    </div>
+        <div class="mb-3">
+            <label class="col-sm-2 col-form-label" for="password">Password</label>
+            <input class="form-control" id="password" name="password" placeholder="Enter password"
+                   type="password">
+        </div>
+        <div class="mb-3">
+            <input id="remember-me" name="remember-me"
+                   type="checkbox">
+            <label for="remember-me">Remember me</label>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary mb-3" type="submit">Login</button>
+            or <a class=" btn btn-primary mb-3" th:href="@{/user/showRegister}">Register</a>
+        </div>
+    </form>
 </div>
 
-<h1>Blog List</h1>
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th>STT</th>
-        <th>Name</th>
-        <th>type</th>
-        <th>Author</th>
-        <th>Category</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="blog,loop : ${list}">
-        <td th:text="${loop.count}"></td>
-        <td th:text="${blog.getName()}"></td>
-        <td th:text="${blog.getType()}"></td>
-        <td th:text="${blog.getAuthor()}"></td>
-        <td th:text="${blog.category.name}"></td>
-        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">View</button>
-        </td>
-    </tr>
-    </tbody>
-</table>
+
+<!--<h1>Blog List</h1>-->
+<!--<table class="table table-hover">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>STT</th>-->
+<!--        <th>Name</th>-->
+<!--        <th>type</th>-->
+<!--        <th>Author</th>-->
+<!--        <th>Category</th>-->
+<!--        <th>Action</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="blog,loop : ${list}">-->
+<!--        <td th:text="${loop.count}"></td>-->
+<!--        <td th:text="${blog.getName()}"></td>-->
+<!--        <td th:text="${blog.getType()}"></td>-->
+<!--        <td th:text="${blog.getAuthor()}"></td>-->
+<!--        <td th:text="${blog.category.name}"></td>-->
+<!--        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">View</button>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
 
 <!--<div class="text-center" th:unless="${list.isEmpty()}">-->
 <!--    <a th:href="@{/(page=${list.number -1},nameSearch='a')}"-->

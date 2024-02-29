@@ -3,6 +3,8 @@ package com.example.security.model.Blog;
 import com.example.security.model.User;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -11,8 +13,51 @@ public class Blog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
     private String type;
+    private int likeBlog;
+    private int viewBlog;
     private String author;
+    private Boolean status;
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Blog(Long id, String name, String type, int likeBlog, int viewBlog, String author, Boolean status, LocalDateTime creationDate, User user, Category category, List<CommentBlog> comments) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.likeBlog = likeBlog;
+        this.viewBlog = viewBlog;
+        this.author = author;
+        this.status = status;
+        this.creationDate = creationDate;
+        this.user = user;
+        this.category = category;
+        this.comments = comments;
+    }
+
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate;
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Blog() {
+        this.creationDate = LocalDateTime.now();
+    }
+
+
     @ManyToOne
     @JoinColumn(name = "user")
     private User user;
@@ -80,14 +125,30 @@ public class Blog {
         this.comments = comments;
     }
 
-    public Blog() {
+    public int getLikeBlog() {
+        return likeBlog;
     }
 
-    public Blog(Long id, String name, String type, String author, User user, Category category, List<CommentBlog> comments) {
+    public void setLikeBlog(int likeBlog) {
+        this.likeBlog = likeBlog;
+    }
+
+    public int getViewBlog() {
+        return viewBlog;
+    }
+
+    public void setViewBlog(int viewBlog) {
+        this.viewBlog = viewBlog;
+    }
+
+    public Blog(Long id, String name, String type, int likeBlog, int viewBlog, String author, LocalDateTime creationDate, User user, Category category, List<CommentBlog> comments) {
         this.id = id;
         this.name = name;
         this.type = type;
+        this.likeBlog = likeBlog;
+        this.viewBlog = viewBlog;
         this.author = author;
+        this.creationDate = creationDate;
         this.user = user;
         this.category = category;
         this.comments = comments;

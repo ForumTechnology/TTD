@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap');
+
+h2,
+h1,
+h3,
+h4,
+a,
+span,
+p {
+    font-family: 'Nunito', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    font-family: 'Nunito', sans-serif;
+}
+
+.bg-header {
+    background-image: url('https://w.forfun.com/fetch/ae/ae2cbe4c74a79df332455ab8fe742e7c.jpeg');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 250px;
+    width: 100%;
+}
+
+.navbar {
+    width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.icon i,
+.user i {
+    padding: 10px;
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.icon i:hover,
+.user i:hover {
+    color: #ff5722;
+    border-top: 3px solid #ff5722;
+}
+
+.bg-header h1 {
+    color: white;
+    text-align: center;
+    font-size: 50px;
+    padding: 20px 0;
+}
+
+.focus-in-expand {
+    animation: focus-in-expand 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes focus-in-expand {
+    0% {
+        letter-spacing: -0.5em;
+        filter: blur(12px);
+        opacity: 0;
+    }
+
+    100% {
+        filter: blur(0px);
+        opacity: 1;
+    }
+}

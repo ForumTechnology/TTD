@@ -15,8 +15,26 @@ public class BlogDTO implements Validator {
     @Size(min = 3, message = ">3 characters")
     private String type;
     private Long category;
+    private int likeBlog;
+    private int viewBlog;
 
     public BlogDTO() {
+    }
+
+    public int getLikeBlog() {
+        return likeBlog;
+    }
+
+    public void setLikeBlog(int likeBlog) {
+        this.likeBlog = likeBlog;
+    }
+
+    public int getViewBlog() {
+        return viewBlog;
+    }
+
+    public void setViewBlog(int viewBlog) {
+        this.viewBlog = viewBlog;
     }
 
     public String getName() {

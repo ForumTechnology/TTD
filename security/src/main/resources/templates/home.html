@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/home.css">
+    <title>Document</title>
+
+    <!-- Thêm thư viện Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Thêm thư viện jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Thêm thư viện Slick Slider -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css">
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+    <!-- Option 1: Include in HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body style="background-color: rgb(30, 30, 30);">
+    <div class="wrap">
+        <div class="bg-header">
+            <div class="navbar">
+                <div class="logo">
+                    <b>
+                        <p style="color: #ff5722;font-size: 25px;">TECH<span style="color: white;">TALK</span></p>
+                    </b>
+                </div>
+                <div class="wrap-icon d-flex ">
+                    <div class="icon d-flex justify-content-center aligns-item-center" style="margin-right: 40px;">
+                        <i class="fa-brands fa-twitter"></i>
+                        <i class="fa-brands fa-apple"></i>
+                        <i class="fa-brands fa-facebook-f"></i>
+                        <i class="fa-solid fa-envelope"></i>
+                        <i class="fa-brands fa-pinterest-p"></i>
+                        <i class="fa-brands fa-unity"></i>
+                        <i class="fa-brands fa-digg"></i>
+                    </div>
+                    <div class="user">
+                        <i class="fa-solid fa-bell"></i>
+                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                </div>
+            </div>
+            <h1 class="focus-in-expand">DIỄN ĐÀN CÔNG NGHỆ</h1>
+        </div>
+    </div>
+    <div class="container-search d-flex">
+        <input type="text" placeholder="Nhập tên chủ đề bạn muốn tìm kiếm">
+        <button type="submit">TÌM KIẾM</button>
+    </div>
+
+    <div class="wrap-content">
+        <div class="content">
+            <table>
+                <tr>
+                    <th class="topic">TIÊU ĐỀ</th>
+                    <th class="view">LƯỢT XEM</th>
+                    <th class="like">LƯỢT THÍCH</th>
+                    <th class="date">NGÀY ĐĂNG</th>
+                </tr>
+                <tr th:each="blog,loop : ${list}">
+                    <td class="d-flex flex-column">
+                        <a th:href="@{/{id}/viewBlog(id=${blog.getId()})}" th:text="${blog.name}"></a>
+                        <div class="d-flex" >
+                            <div th:each="c,lop : ${cate}">
+                                <p style="color: #828080; margin-right: 5px;" th:if="${blog.category.id == c.id}">Chủ đề: <span style="color: #ff5722;" th:text="${c.name}"></span></p>
+                            </div>
+                            <p style="color: #828080;">Bởi <span style="color: red;" th:text="${blog.author}"></span></p>
+                        </div>
+
+                    </td>
+                    <td th:text="${blog.viewBlog}"></td>
+                    <td th:text="${blog.likeBlog}"></td>
+                    <td>
+                        <p th:text="${blog.getCreationDate()}"></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="post-panigation ">
+            <div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    ĐĂNG BÀI <i class="fa-solid fa-pen"></i>
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                10px; <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="form">
+                                    <form th:action="@{/createBlog}" th:object="${blog}" method="post">
+                                        <input type="hidden" value=0 th:field="*{viewBlog}">
+                                        <input type="hidden" value=0 th:field="*{likeBlog}">
+                                        <label for="inputName" class="col-form-label">Title:</label>
+                                        <input type="text" style="border: 1px solid black" th:field="*{name}" id="inputName">
+                                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+
+                                        <label for="inputContent" class="col-form-label">Content:</label>
+                                        <textarea type="text" th:field="*{type}" id="inputContent"></textarea>
+                                        <p th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></p>
+
+                                        <label for="inputCate" class="col-form-label">Category</label>
+                                        <select th:field="*{category}" id="inputCate">
+                                            <option th:each="p : ${categoryList}" th:value="${p.id}" th:text="${p.name}"></option>
+                                        </select>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <div class="text-center" th:unless="${list.isEmpty()}">
+                            <a th:href="@{/showListBlog/(page=${list.number -1},nameSearch='a')}"
+                               th:if="${list.hasPrevious()}">Prev</a>
+                            <!--    Cách 1-->
+                            <span th:text="${list.number + 1}"></span> / <span th:text="${list.totalPages}"></span><br>
+                            <!--    Cách 2-->
+                            <th:block th:each="i: ${pages}">
+                                <a th:href="@{/(page=${i - 1})}"
+                                   th:text="${i}">Prev</a>
+                            </th:block>
+                            <a th:href="@{/showListBlog/(page=${list.number + 1})}"
+                               th:if="${list.hasNext()}">Next</a>
+                        </div>
+<!--                        <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--                        <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+<!--                        <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+<!--                        <li class="page-item">-->
+<!--                            <a class="page-link" href="#" aria-label="Next">-->
+<!--                                <span aria-hidden="true">&raquo;</span>-->
+<!--                            </a>-->
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+
+        <div class="regulations">
+            <div style="background-color: #333;padding: 10px;">
+                <h5 style="color: white;">
+                    <b>QUY ĐỊNH CỦA DIỄN ĐÀN</b>
+                </h5>
+            </div>
+            <div style="background-color: #2d2d2d; padding: 10px;">
+                <ul>
+                    <li>Tôn trọng và Các Nội Quy Etiquette:
+                        <ul>
+                            <li>Không vi phạm quy tắc tôn trọng và lịch sự trong giao tiếp trực tuyến.
+                            </li>
+                            <li>Tôn trọng ý kiến và quan điểm của người khác.</li>
+                        </ul>
+                    </li>
+                    <li>Chủ đề và Nội dung:
+                        <ul>
+                            <li>Bài viết nên liên quan đến chủ đề chính của diễn đàn.</li>
+                            <li>Cấm spam, quảng cáo không phù hợp.</li>
+                        </ul>
+                    </li>
+                    <li>Ngôn ngữ và Nội dung không phù hợp:
+                        <ul>
+                            <li>Cấm sử dụng ngôn ngữ thô tục, phản động.</li>
+                            <li>Nội dung phải tuân thủ quy định về bản quyền và pháp luật.</li>
+                        </ul>
+                    </li>
+                    <li>Bảo mật và Quyền riêng tư:
+                        <ul>
+                            <li>Cấm chia sẻ thông tin cá nhân không đúng cách.</li>
+                            <li>Bảo mật tài khoản và thông tin người dùng.</li>
+                        </ul>
+                    </li>
+                    <li>Hợp tác và Đóng Góp:
+                        <ul>
+                            <li>Khuyến khích sự hợp tác và chia sẻ kiến thức.</li>
+                            <li>Đảm bảo tính xây dựng và tích cực của đóng góp.</li>
+                        </ul>
+                    </li>
+                    <li>Xử lý Vi Phạm:
+                        <ul>
+                            <li>Quy định cụ thể về cách xử lý các trường hợp vi phạm.</li>
+                            <li>Các biện pháp kỷ luật như cảnh báo, cấm truy cập, hoặc xóa bài viết.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Quản lý và Quyết định của Ban Quản trị:
+                        <ul>
+                            <li>Quyền của ban quản trị trong việc quyết định và giải quyết mọi tranh
+                                chấp hoặc vấn đề.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer d-flex justify-content-center">
+        <i class="fa-brands fa-twitter"></i>
+        <i class="fa-brands fa-apple"></i>
+        <i class="fa-brands fa-facebook-f"></i>
+        <i class="fa-solid fa-envelope"></i>
+        <i class="fa-brands fa-pinterest-p"></i>
+        <i class="fa-brands fa-unity"></i>
+        <i class="fa-brands fa-digg"></i>
+    </div>
+
+
+
+
+</body>
+
+</html>

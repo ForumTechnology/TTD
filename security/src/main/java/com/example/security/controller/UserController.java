@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -39,12 +40,41 @@ public class UserController {
     RoleRepository roleRepository;
     @Autowired
     IUserService iUserService;
+//    @GetMapping("/")
+//    public ModelAndView showList(@RequestParam(defaultValue = "0") int page) {
+//        Sort sort = Sort.by("name").ascending();
+//        Pageable pageable = PageRequest.of(page, 99, sort);
+//        Page<Blog> blogs = iBlogService.findAll(pageable);
+//        int size = blogs.getTotalPages();
+//        List<Integer> listPage = new ArrayList<>();
+//        for (int i = 1; i <= size; i++) {
+//            listPage.add(i);
+//        }
+//        ModelAndView mV = new ModelAndView("/login");
+//        mV.addObject("pages", listPage);
+//        mV.addObject("list", blogs);
+//        return mV;
+//    }
+
+    @GetMapping("/delete")
+    public ModelAndView delete(@RequestParam("id")Long id,Model model){
+        ModelAndView mv = new ModelAndView("redirect:/user/showList");
+        Optional<User> user = iUserService.findUserById(id);
+        user.get().setStatus(false);
+        iUserService.save(user.get());
+        return mv;
+    }
 
     @GetMapping("/showList")
-    private ModelAndView showListUser(){
+    private ModelAndView showListUser(@RequestParam(defaultValue = "0") int page){
+        Sort sort = Sort.by("email").ascending();
+        Pageable pageable = PageRequest.of(page, 99, sort);
+        Page<User> userList = iUserService.findAlll(pageable);
         ModelAndView mv = new ModelAndView("/userList");
         List<Role> roles = roleRepository.findAll();
-        mv.addObject("user",iUserService.findAll());
+//        List<User> userList = iUserService.findAll();
+        mv.addObject("userList",userList);
+        mv.addObject("blog",iBlogService.findAlll());
         mv.addObject("role",roles);
         return mv;
     }

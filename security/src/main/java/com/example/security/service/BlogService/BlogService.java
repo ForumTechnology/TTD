@@ -27,6 +27,11 @@ public class BlogService implements IBlogService {
     }
 
     @Override
+    public List<Blog> findAlll() {
+        return iBlogRepository.findAll();
+    }
+
+    @Override
     public Blog findOne(long id) {
        return iBlogRepository.findById(id).get();
     }
@@ -34,5 +39,10 @@ public class BlogService implements IBlogService {
     @Override
     public void delete(long id) {
         iBlogRepository.deleteById(id);
+    }
+
+    @Override
+    public void save(Blog blog) {
+        iBlogRepository.save(blog);
     }
 }

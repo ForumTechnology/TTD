@@ -10,7 +10,7 @@
 </head>
 <body>
 <div align=" center">
-    <form class="form-control" th:action="@{/blog/update}" method="post" th:object="${blog}" enctype="multipart/form-data">
+    <form class="form-control" th:action="@{/update}" method="post" th:object="${blog}" enctype="multipart/form-data">
         <table>
             <tr>
                 <td></td>
@@ -29,7 +29,7 @@
             <tr>
                 <td>Author</td>
                 <td>
-                    <textarea minlength="50" class="form-control" th:field="*{author}" disabled></textarea>
+                    <input class="form-control" type="hidden" th:field="*{author}" >
                 </td>
 
 

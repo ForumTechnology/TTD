@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -13,9 +13,6 @@
     <h2 class="mb-4">Registration Form</h2>
 
     <form th:action="@{/user/registration}" th:object="${user}" method="post">
-
-
-
         <!-- Email Input -->
         <div class="mb-3">
             <label for="email" class="form-label">Email:</label>

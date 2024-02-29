@@ -39,23 +39,14 @@ public class BlogController {
     private ICommentBlogService iCommentBlogService;
 
     @GetMapping("/")
-    public ModelAndView showList(@RequestParam(defaultValue = "0") int page) {
-        Sort sort = Sort.by("name").ascending();
-        Pageable pageable = PageRequest.of(page, 99, sort);
-        Page<Blog> blogs = iBlogService.findAll(pageable);
-        int size = blogs.getTotalPages();
-        List<Integer> listPage = new ArrayList<>();
-        for (int i = 1; i <= size; i++) {
-            listPage.add(i);
-        }
-        ModelAndView mV = new ModelAndView("/login");
-        mV.addObject("pages", listPage);
-        mV.addObject("list", blogs);
+    public ModelAndView detail(@RequestParam(defaultValue = "0") int page) {
+
+        ModelAndView mV = new ModelAndView("/detail");
         return mV;
     }
     @RequestMapping("/showListBlog")
     @GetMapping
-    public ModelAndView showListAfterLogin(@RequestParam(defaultValue = "0") int page,Principal principal) {
+    public ModelAndView showListAfterLogin(@RequestParam(defaultValue = "0") int page,Principal principal, Model model) {
         Sort sort = Sort.by("name").ascending();
         Pageable pageable = PageRequest.of(page, 99, sort);
         Page<Blog> blogs = iBlogService.findAll(pageable);
@@ -67,8 +58,11 @@ public class BlogController {
         User user = new User();
         String email = principal.getName();
         user.setEmail(email);
-        ModelAndView mV = new ModelAndView("/list");
+        model.addAttribute("blog", new Blog());
+        model.addAttribute("categoryList", iCategoryService.finAll());
+        ModelAndView mV = new ModelAndView("/home");
         mV.addObject("pages", listPage);
+        mV.addObject("cate", iCategoryService.finAll());
         mV.addObject("list", blogs);
         mV.addObject("user",user);
         return mV;
@@ -86,7 +80,6 @@ public class BlogController {
         ModelAndView mv = new ModelAndView("edit");
         mv.addObject("blog",iBlogService.findOne(id));
         mv.addObject("category",iCategoryService.finAll());
-
         return mv;
     }
 
@@ -97,9 +90,16 @@ public class BlogController {
         User userTemp = new User();
         String email = principal.getName();
         userTemp.setEmail(email);
+
+        //them luot view
+        int temp = blog.getViewBlog();
+        temp+=1;
+        blog.setViewBlog(temp);
+        iBlogService.save(blog);
+
         mv.addObject("user",userTemp);
         mv.addObject("comment",iCommentBlogService.findAllCommentBlogs());
-        mv.addObject("blog",iBlogService.findOne(id));
+        mv.addObject("blog",blog);
         mv.addObject("category",iCategoryService.finAll());
         return mv;
     }
@@ -117,13 +117,21 @@ public class BlogController {
     }
 
 
-    @GetMapping("{id}/delete")
-    public ModelAndView delete(@PathVariable("id")Long id,Model model){
-        ModelAndView mv = new ModelAndView("redirect:/showListBlog");
+    @GetMapping("/{id}/showDelete")
+    public String showDelete(@PathVariable("id") Long id,Model model) {
+        model.addAttribute("blog", iBlogService.findOne(id));
+        return "delete";
+    }
+    @GetMapping("/delete")
+    public String delete(@RequestParam("id") Long id,Model model){
         iBlogService.delete(id);
-        String msg = "Delete done.";
-       mv.addObject("msg",msg);
-        return mv;
+        return "redirect:/showListBlog";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute("blog") Blog blog,Model model){
+        iBlogService.save(blog);
+        return "redirect:/"+blog.getId()+"/viewBlog";
     }
 
     @PostMapping("/createBlog")
@@ -139,6 +147,8 @@ public class BlogController {
         User user = iUserService.findUserByEmail(email);
         // Chuyển đổi dữ liệu từ DTO -> Entity
         BeanUtils.copyProperties(blog, s);
+        s.setLikeBlog(0);
+        s.setViewBlog(0);
         s.setUser(user);
         s.setAuthor(email);
         s.setCategory(category);

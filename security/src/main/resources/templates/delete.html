@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Form</title>
+    <!-- Thêm Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>Xác nhận xóa USER</h2>
+    <form th:action="@{/{id}/delete(id=${userDelete.get().id})}" method="post">
+
+        <!-- Email -->
+        <div class="form-group">
+            <span>Email:</span>
+            <input type="email"  id="email" name="email" disabled th:value="${userDelete.get().email}">
+        </div>
+
+        <!-- Role -->
+        <div class="form-group">
+            <span>Role:</span>
+            <div th:each="r : ${userDelete.get().roles}">
+                <div th:if="${r.getName().equals('ROLE_ADMIN')}">
+                    <span th:text="${r.name}"></span>
+                </div>
+                <div  th:if="${r.getName().equals('ROLE_USER')}">
+                    <span th:text="${r.name}"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nút Submit -->
+        <button type="submit" class="btn btn-primary">Xóa</button>
+    </form>
+</div>
+
+<!-- Thêm Bootstrap JS và Popper.js -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

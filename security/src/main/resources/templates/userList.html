@@ -20,22 +20,61 @@
         <th>Email</th>
         <th>Pass</th>
         <th>Role</th>
+        <th>Action</th>
     </tr>
-    <tr th:each="user,loop : ${user}">
-        <td th:text="${loop.count}"></td>
-        <td th:text="${user.email}"></td>
-        <td th:text="${user.password}"></td>
-        <td th:each="r : ${user.roles}">
-            <span th:if="${r.getName().equals('ROLE_ADMIN')}">
-                <span th:text="${r.name}"></span>
-            </span>
-            <span th:if="${r.getName().equals('ROLE_USER')}">
-                <span th:text="${r.name}"></span>
-            </span>
+    <tr th:each="u,loop : ${userList}">
+        <div th:if="${u.getStatus()}">
+            <td th:text="${loop.count}"></td>
+            <td th:text="${u.email}"></td>
+            <td th:text="${u.password}"></td>
+        <td>
+                <div th:each="r : ${u.roles}">
+                <div th:if="${r.getName().equals('ROLE_ADMIN')}">
+                    <span th:text="${r.name}"></span>
+                </div>
+                <div th th:if="${r.getName().equals('ROLE_USER')}">
+                    <span th:text="${r.name}"></span>
+                </div>
+            </div>
         </td>
+        <td>
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal" th:data-id="${u.id}" th:data-title="${u.email}" th:onclick="deleteInfo(this.getAttribute('data-id'),this.getAttribute('data-title'))" >XOÁ</button>
+        </td>
+        </div>
     </tr>
 </table>
 </body>
 </span>
-
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="/user/delete" method="get">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete USER</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input hidden name="id" id="id">
+                    <span>Do you want delete </span><span id="deleteName"></span><span>?</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+    function deleteInfo(id,title) {
+        document.getElementById("id").value=id;
+        document.getElementById("deleteName").innerText=title;
+    }
+</script>
