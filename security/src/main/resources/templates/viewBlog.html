@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../static/detailStyle.css">
+    <link rel="stylesheet" href="/detailStyle.css">
 
     <!-- Thêm thư viện Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -47,7 +47,7 @@
         <div class="navbar">
             <div class="logo">
                 <b>
-                    <p style="color: #ff5722;font-size: 25px;">TECH<span style="color: white;">TALK</span></p>
+                    <a th:href="@{/showListBlog}"><p style="color: #ff5722;font-size: 25px;">TECH<span style="color: white;">TALK</span></p></a>
                 </b>
             </div>
             <div class="wrap-icon d-flex ">
@@ -70,7 +70,7 @@
         <h1 class="focus-in-expand">DIỄN ĐÀN CÔNG NGHỆ</h1>
     </div>
 </div>
-<a href="/"> <button class="btn btn-primary mb-3" type="button">Quay lại</button></a>
+<a th:href="@{/showListBlog}"> <button class="btn btn-primary mb-3" type="button">Quay lại</button></a>
 <div class="wrap-news">
     <h1>
         <b th:text="${blog.name}"></b>
@@ -114,16 +114,13 @@
         <p class="comment-time" th:text="${c.getDateTime()}"></p>
     </div>
 
-
-
     <div class="reply-section">
-        <form class="comment-form" method="post" th:action="@{/postComment}">-->
-                    <h3>Add a Comment</h3>
+        <form class="comment-form" method="post" th:action="@{/postComment}">
+                    <h3 style="color: #CCCCCC">Thêm bình luận</h3>
                     <div class="mb-3">
-                        <label for="commentContent" class="form-label"><p>Your Comment:</p></label>
                         <input name="id" th:value="${blog.id}" hidden="hidden">
                         <input name="idUser" th:value="${userBlog.getId()}" hidden="hidden">
-                        <textarea class="form-control" name="comment" id="commentContent" rows="3" required></textarea>
+                        <textarea class="form-control" name="comment" id="commentContent" rows="3" required placeholder="Nhập bình luận..."></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Post Comment</button>
                 </form>
@@ -132,83 +129,4 @@
 
 
 </body>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap');
-
-    h2,
-    h1,
-    h3,
-    h4,
-    a,
-    span,
-    p {
-        font-family: 'Nunito', sans-serif;
-        color: #CCCCCC;
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        text-decoration: none;
-        box-sizing: border-box;
-        border: none;
-        outline: none;
-        font-family: 'Nunito', sans-serif;
-    }
-
-    .bg-header {
-        background-image: url('https://w.forfun.com/fetch/ae/ae2cbe4c74a79df332455ab8fe742e7c.jpeg');
-        background-position: center center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        height: 250px;
-        width: 100%;
-    }
-
-    .navbar {
-        width: 1400px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .icon i,
-    .user i {
-        padding: 10px;
-        color: white;
-        font-size: 25px;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-
-    .icon i:hover,
-    .user i:hover {
-        color: #ff5722;
-        border-top: 3px solid #ff5722;
-    }
-
-    .bg-header h1 {
-        color: white;
-        text-align: center;
-        font-size: 50px;
-        padding: 20px 0;
-    }
-
-    .focus-in-expand {
-        animation: focus-in-expand 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-    }
-
-    @keyframes focus-in-expand {
-        0% {
-            letter-spacing: -0.5em;
-            filter: blur(12px);
-            opacity: 0;
-        }
-
-        100% {
-            filter: blur(0px);
-            opacity: 1;
-        }
-    }
-</style>
 </html>
