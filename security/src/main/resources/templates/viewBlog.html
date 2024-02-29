@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
           integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
 </head>
 
@@ -47,7 +47,8 @@
         <div class="navbar">
             <div class="logo">
                 <b>
-                    <a th:href="@{/showListBlog}"><p style="color: #ff5722;font-size: 25px;">TECH<span style="color: white;">TALK</span></p></a>
+                    <a th:href="@{/showListBlog}"><p style="color: #ff5722;font-size: 25px;">TECH<span
+                            style="color: white;">TALK</span></p></a>
                 </b>
             </div>
             <div class="wrap-icon d-flex ">
@@ -70,7 +71,9 @@
         <h1 class="focus-in-expand">DIỄN ĐÀN CÔNG NGHỆ</h1>
     </div>
 </div>
-<a th:href="@{/showListBlog}"> <button class="btn btn-primary mb-3" type="button">Quay lại</button></a>
+<a th:href="@{/showListBlog}">
+    <button class="btn btn-primary mb-3" type="button">Quay lại</button>
+</a>
 <div class="wrap-news">
     <h1>
         <b th:text="${blog.name}"></b>
@@ -80,7 +83,8 @@
         <div class="d-flex flex-column">
             <p>Người đăng: <span style="color: #ff5722;" th:text="${user.email}"></span></p>
             <div th:each="c,lop : ${category}">
-                <p style="color: #828080; margin-right: 5px;" th:if="${blog.category.id == c.id}">Chủ đề: <span style="color: #ff5722;" th:text="${c.name}"></span></p>
+                <p style="color: #828080; margin-right: 5px;" th:if="${blog.category.id == c.id}">Chủ đề: <span
+                        style="color: #ff5722;" th:text="${c.name}"></span></p>
             </div>
         </div>
         <div>
@@ -100,33 +104,77 @@
     </div>
 </div>
 <!--<div class="comment" th:each="c,loop : ${comment}">&ndash;&gt;-->
-    <!--        <div th:if="${c.getBlog().id == blog.id}">-->
-    <!--            <p><strong th:text="${user.email}"></strong> - <span th:text="${c.getDateTime()}"></span></p>-->
-    <!--            <p th:text="${c.content}">No comment</p>-->
-    <!--        </div>-->
-    <!--    </div>-->
-<div class="wrap-cmt">
-    <div class="comment" th:each="c,loop : ${comment}">
-        <div class="user-info">
-            <p style="color: #ff5722;" th:text="${user.email}"></p>
+<!--        <div th:if="${c.getBlog().id == blog.id}">-->
+<!--            <p><strong th:text="${user.email}"></strong> - <span th:text="${c.getDateTime()}"></span></p>-->
+<!--            <p th:text="${c.content}">No comment</p>-->
+<!--        </div>-->
+<!--    </div>-->
+<div th:each="c,loop : ${comment}">
+    <div th:if="${c.blog.id == blog.id}">
+        <div class="wrap-cmt">
+            <div class="comment">
+                <div class="user-info">
+                    <p style="color: #ff5722;" th:text="${user.email}"></p>
+                </div>
+                <p class="comment-text" th:text="${c.content}"></p>
+                <p class="comment-time" th:text="${c.getDateTime()}"></p>
+                <span sec:authorize="hasRole('ADMIN')">
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal" th:data-id="${c.id}" th:data-idBlogg="${c.blog.getId()}" th:onclick="deleteInfo(this.getAttribute('data-id'),this.getAttribute('data-idBlogg'))" >XOÁ</button>
+                </span>
+            </div>
         </div>
-        <p class="comment-text" th:text="${c.content}"></p>
-        <p class="comment-time" th:text="${c.getDateTime()}"></p>
     </div>
+</div>
 
-    <div class="reply-section">
-        <form class="comment-form" method="post" th:action="@{/postComment}">
-                    <h3 style="color: #CCCCCC">Thêm bình luận</h3>
-                    <div class="mb-3">
-                        <input name="id" th:value="${blog.id}" hidden="hidden">
-                        <input name="idUser" th:value="${userBlog.getId()}" hidden="hidden">
-                        <textarea class="form-control" name="comment" id="commentContent" rows="3" required placeholder="Nhập bình luận..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Post Comment</button>
-                </form>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="/deleteComment" method="get">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete USER</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input  name="id" id="id" hidden="hidden">
+                    <input name="idBlog" id="idBlog" hidden="hidden">
+                    <p>Xác nhận xóa ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                </div>
+            </div>
+        </form>
     </div>
+</div>
+
+<div class="reply-section">
+    <form class="comment-form" method="post" th:action="@{/postComment}">
+        <h3 style="color: #CCCCCC">Thêm bình luận</h3>
+        <div class="mb-3">
+            <input name="id" th:value="${blog.id}" hidden="hidden">
+            <input name="idUser" th:value="${userBlog.getId()}" hidden="hidden">
+            <textarea class="form-control" name="comment" id="commentContent" rows="3" required
+                      placeholder="Nhập bình luận..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+    </form>
+</div>
 </div>
 
 
 </body>
 </html>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+    function deleteInfo(id,idBlog) {
+        document.getElementById("id").value=id;
+        document.getElementById("idBlog").value=idBlog;
+    }
+</script>

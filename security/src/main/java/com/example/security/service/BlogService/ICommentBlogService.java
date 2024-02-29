@@ -7,4 +7,5 @@ import java.util.List;
 public interface ICommentBlogService {
     List<CommentBlog> findAllCommentBlogs();
     void save(CommentBlog commentBlog);
+    void delete(Long id);
 }

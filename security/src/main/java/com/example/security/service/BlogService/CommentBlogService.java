@@ -20,6 +20,11 @@ public class CommentBlogService implements ICommentBlogService {
     public void save(CommentBlog commentBlog) {
         commentBlogRepo.save(commentBlog);
     }
+
+    @Override
+    public void delete(Long id) {
+        commentBlogRepo.deleteById(id);
+    }
 }
 
 

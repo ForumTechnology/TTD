@@ -95,10 +95,7 @@ public class BlogController {
         User user = iUserService.findUserByEmail(email);
 
         //them luot view
-        int temp = blog.getViewBlog();
-        temp+=1;
-        blog.setViewBlog(temp);
-        iBlogService.save(blog);
+        congLuotXem(id);
 
         mv.addObject("userBlog",user);
         mv.addObject("user",userTemp);
@@ -178,6 +175,7 @@ public class BlogController {
     @PostMapping("/postComment")
     public ModelAndView postComment(@RequestParam("id") Long id,@RequestParam("idUser") Long idUser,@RequestParam("comment") String comment,Model model) {
         ModelAndView mv = new ModelAndView("redirect:/" + id + "/viewBlog");
+        truLuotXem(id);
         CommentBlog commentBlog = new CommentBlog();
         commentBlog.setBlog(iBlogService.findOne(id));
         commentBlog.setContent(comment);
@@ -185,4 +183,26 @@ public class BlogController {
         iCommentBlogService.save(commentBlog);
         return mv;
     }
+    @GetMapping("/deleteComment")
+    public String deleteComment(@RequestParam("id") Long id,@RequestParam("idBlog") Long idBlog,Model model){
+        iCommentBlogService.delete(id);
+        truLuotXem(idBlog);
+        return "redirect:/"+idBlog+"/viewBlog";
+    }
+
+    void congLuotXem(Long id){
+        Blog blog = iBlogService.findOne(id);
+        int temp = blog.getViewBlog();
+        temp+=1;
+        blog.setViewBlog(temp);
+        iBlogService.save(blog);
+    }
+    void truLuotXem(Long id){
+        Blog blog = iBlogService.findOne(id);
+        int temp = blog.getViewBlog();
+        temp-=1;
+        blog.setViewBlog(temp);
+        iBlogService.save(blog);
+    }
+
 }
