@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/homeStyle.css">
+    <title>Document</title>
+
+    <!-- Thêm thư viện Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Thêm thư viện jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Thêm thư viện Slick Slider -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+    <!-- Option 1: Include in HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+          integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body style="background-color: rgb(30, 30, 30);">
+<div class="wrap">
+    <div class="bg-header">
+        <div class="navbar">
+            <div class="logo">
+                <b>
+                    <a th:href="@{/showListBlog}"><p style="color: #ff5722;font-size: 25px;">TECH<span
+                            style="color: white;">TALK</span></p></a>
+                </b>
+            </div>
+            <div class="wrap-icon d-flex ">
+                <div class="icon d-flex justify-content-center aligns-item-center" style="margin-right: 40px;">
+                    <i class="fa-brands fa-twitter"></i>
+                    <i class="fa-brands fa-apple"></i>
+                    <i class="fa-brands fa-facebook-f"></i>
+                    <i class="fa-solid fa-envelope"></i>
+                    <i class="fa-brands fa-pinterest-p"></i>
+                    <i class="fa-brands fa-unity"></i>
+                    <i class="fa-brands fa-digg"></i>
+                </div>
+                <div class="user">
+                    <i class="fa-solid fa-bell"></i>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/showDuyetBai}"><i class="fa-solid fa-list-check"></i></a>
+                    </div>
+                    <i class="fa-solid fa-user"></i>
+                    <a href="/"><i class="fa-solid fa-right-from-bracket"></i></a>
+
+                </div>
+            </div>
+        </div>
+        <h1 class="focus-in-expand">DIỄN ĐÀN CÔNG NGHỆ</h1>
+    </div>
+</div>
+<div class="container-search d-flex">
+    <form method="get" th:action="@{/searchBlog}" style="display: flex;align-items: center">
+        <input type="text" placeholder="Nhập tên chủ đề bạn muốn tìm kiếm" name="inputSearch" style="margin-right: 10px">
+        <button type="submit">TÌM KIẾM</button>
+    </form>
+</div>
+
+<div class="wrap-content">
+    <div class="content">
+        <table>
+            <tr>
+                <th class="topic">TIÊU ĐỀ</th>
+                <th class="view">LƯỢT XEM</th>
+                <th class="like">LƯỢT THÍCH</th>
+                <th class="date">NGÀY ĐĂNG</th>
+            </tr>
+            <div th:if="${searchBlog.size() == 0}">
+                <h1 style="text-align: center" > Không có Blog cần tìm </h1></div>
+            <tr th:each="blog,loop : ${searchBlog}">
+                <div th:if="${blog.getStatus()}">
+                    <td class="d-flex flex-column">
+                        <a th:href="@{/{id}/viewBlog(id=${blog.getId()})}" th:text="${blog.name}"></a>
+                        <div class="d-flex" >
+                            <div th:each="c,lop : ${cate}">
+                                <p style="color: #828080; margin-right: 5px;" th:if="${blog.category.id == c.id}">Chủ đề: <span style="color: #ff5722;" th:text="${c.name}"></span></p>
+                            </div>
+                            <p style="color: #828080;">Bởi <span style="color: red;" th:text="${blog.author}"></span></p>
+                        </div>
+
+                    </td>
+                    <td th:text="${blog.viewBlog}"></td>
+                    <td th:text="${blog.likeBlog}"></td>
+                    <td>
+                        <p th:text="${blog.getCreationDate()}"></p>
+                    </td>
+                </div>
+            </tr>
+        </table>
+    </div>
+
+    <div class="regulations">
+        <div style="background-color: #333;padding: 10px;">
+            <h5 style="color: white;">
+                <b>QUY ĐỊNH CỦA DIỄN ĐÀN</b>
+            </h5>
+        </div>
+        <div style="background-color: #2d2d2d; padding: 10px;">
+            <ul>
+                <li>Tôn trọng và Các Nội Quy Etiquette:
+                    <ul>
+                        <li>Không vi phạm quy tắc tôn trọng và lịch sự trong giao tiếp trực tuyến.
+                        </li>
+                        <li>Tôn trọng ý kiến và quan điểm của người khác.</li>
+                    </ul>
+                </li>
+                <li>Chủ đề và Nội dung:
+                    <ul>
+                        <li>Bài viết nên liên quan đến chủ đề chính của diễn đàn.</li>
+                        <li>Cấm spam, quảng cáo không phù hợp.</li>
+                    </ul>
+                </li>
+                <li>Ngôn ngữ và Nội dung không phù hợp:
+                    <ul>
+                        <li>Cấm sử dụng ngôn ngữ thô tục, phản động.</li>
+                        <li>Nội dung phải tuân thủ quy định về bản quyền và pháp luật.</li>
+                    </ul>
+                </li>
+                <li>Bảo mật và Quyền riêng tư:
+                    <ul>
+                        <li>Cấm chia sẻ thông tin cá nhân không đúng cách.</li>
+                        <li>Bảo mật tài khoản và thông tin người dùng.</li>
+                    </ul>
+                </li>
+                <li>Hợp tác và Đóng Góp:
+                    <ul>
+                        <li>Khuyến khích sự hợp tác và chia sẻ kiến thức.</li>
+                        <li>Đảm bảo tính xây dựng và tích cực của đóng góp.</li>
+                    </ul>
+                </li>
+                <li>Xử lý Vi Phạm:
+                    <ul>
+                        <li>Quy định cụ thể về cách xử lý các trường hợp vi phạm.</li>
+                        <li>Các biện pháp kỷ luật như cảnh báo, cấm truy cập, hoặc xóa bài viết.
+                        </li>
+                    </ul>
+                </li>
+                <li>Quản lý và Quyết định của Ban Quản trị:
+                    <ul>
+                        <li>Quyền của ban quản trị trong việc quyết định và giải quyết mọi tranh
+                            chấp hoặc vấn đề.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="footer d-flex justify-content-center">
+    <i class="fa-brands fa-twitter"></i>
+    <i class="fa-brands fa-apple"></i>
+    <i class="fa-brands fa-facebook-f"></i>
+    <i class="fa-solid fa-envelope"></i>
+    <i class="fa-brands fa-pinterest-p"></i>
+    <i class="fa-brands fa-unity"></i>
+    <i class="fa-brands fa-digg"></i>
+</div>
+
+
+
+
+</body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap');
+
+    h2,
+    h1,
+    h3,
+    h4,
+    a,
+    span,
+    p {
+        font-family: 'Nunito', sans-serif;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        box-sizing: border-box;
+        border: none;
+        outline: none;
+        font-family: 'Nunito', sans-serif;
+    }
+
+    .bg-header {
+        background-image: url('https://w.forfun.com/fetch/ae/ae2cbe4c74a79df332455ab8fe742e7c.jpeg');
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 250px;
+        width: 100%;
+    }
+
+    .navbar {
+        width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .icon i,
+    .user i {
+        padding: 10px;
+        color: white;
+        font-size: 25px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .icon i:hover,
+    .user i:hover {
+        color: #ff5722;
+        border-top: 3px solid #ff5722;
+    }
+
+    .bg-header h1 {
+        color: white;
+        text-align: center;
+        font-size: 50px;
+        padding: 20px 0;
+    }
+
+    .focus-in-expand {
+        animation: focus-in-expand 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
+
+    @keyframes focus-in-expand {
+        0% {
+            letter-spacing: -0.5em;
+            filter: blur(12px);
+            opacity: 0;
+        }
+
+        100% {
+            filter: blur(0px);
+            opacity: 1;
+        }
+    }
+
+    .container-search {
+        width: 1200px;
+        height: 64px;
+        margin: -30px auto;
+    }
+
+    .container-search input {
+        background-color: #2d2d2d;
+        color: #ff5722;
+        padding: 0 30px;
+        width: 1100px;
+        height: 100%;
+    }
+
+    .container-search button {
+        color: white;
+        width: 100px;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(255, 152, 0, 1) 0%, rgba(255, 87, 34, 1) 100%);
+    }
+
+    .wrap-content {
+        width: 1200px;
+        margin: 80px auto;
+        overflow: hidden;
+    }
+
+    .content {
+        background-color: #2d2d2d;
+        width: 100%;
+        height: 100%;
+
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        color: white;
+        background-color: #333;
+        padding: 10px;
+        text-align: left;
+    }
+
+    td {
+        padding: 10px;
+        color: #CCCCCC;
+        border-bottom: 1px solid #444;
+    }
+
+    td a {
+        color: #ff5722;
+    }
+
+    td a:hover {
+        color: rgb(244, 181, 86);
+    }
+
+    .topic {
+        max-width: 550px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .view,
+    .like,
+    .date {
+        width: 150px;
+    }
+
+    .date {
+        width: 250px;
+    }
+
+    tr {
+        border-bottom: 1px solid #444 !important;
+    }
+
+    tr:hover {
+        background-color: #444;
+    }
+
+    .post-panigation {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn {
+        border-radius: 0 !important;
+        background-color: #ff5722 !important;
+        color: white !important;
+        padding: 10px 15px;
+    }
+
+    .btn:hover {
+        background-color: rgb(244, 181, 86) !important;
+    }
+
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .page-item {
+        margin-right: 5px;
+    }
+
+    .page-link {
+        border-radius: 0 !important;
+        background-color: #ff5722 !important;
+        color: white !important;
+        padding: 10px 15px;
+        border: 1px solid #ff5722 !important;
+    }
+
+    .page-link:hover {
+        background-color: rgb(244, 181, 86) !important;
+        border-color: rgb(244, 181, 86) !important;
+    }
+
+    .regulations {
+        margin-top: 40px;
+    }
+
+    li,
+    ul {
+        color: #CCCCCC !important;
+    }
+
+    .footer i {
+        padding: 20px 20px;
+        color: white !important;
+        font-size: 30px;
+    }
+</style>
+</html>

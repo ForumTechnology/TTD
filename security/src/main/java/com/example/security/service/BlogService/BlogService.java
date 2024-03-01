@@ -45,4 +45,9 @@ public class BlogService implements IBlogService {
     public void save(Blog blog) {
         iBlogRepository.save(blog);
     }
+
+    @Override
+    public List<Blog> findByName(String name) {
+        return iBlogRepository.findByName(name);
+    }
 }

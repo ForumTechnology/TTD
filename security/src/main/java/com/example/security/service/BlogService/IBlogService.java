@@ -13,4 +13,5 @@ public interface IBlogService {
     Blog findOne(long id);
     void delete(long id);
     void save(Blog blog);
+    List<Blog> findByName(String name);
 }

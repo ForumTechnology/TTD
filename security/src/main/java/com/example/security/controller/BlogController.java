@@ -41,9 +41,13 @@ public class BlogController {
 
     @GetMapping("/")
     public ModelAndView detail(@RequestParam(defaultValue = "0") int page) {
-
         ModelAndView mV = new ModelAndView("/detail");
         return mV;
+    }
+    @RequestMapping("/login")
+    @GetMapping
+    public String loginForm() {
+        return "login";
     }
     @RequestMapping("/showListBlog")
     @GetMapping
@@ -65,6 +69,22 @@ public class BlogController {
         mV.addObject("pages", listPage);
         mV.addObject("cate", iCategoryService.finAll());
         mV.addObject("list", blogs);
+        mV.addObject("user",user);
+        return mV;
+    }
+    @RequestMapping("/searchBlog")
+    @GetMapping
+    public ModelAndView showListAfterLogin(@RequestParam("inputSearch") String inputSearch,Principal principal, Model model) {
+        List<Blog> searchBlog = iBlogService.findByName(inputSearch);
+        User user = new User();
+        String email = principal.getName();
+        user.setEmail(email);
+        model.addAttribute("blog", new Blog());
+        model.addAttribute("categoryList", iCategoryService.finAll());
+        ModelAndView mV = new ModelAndView("/search");
+
+        mV.addObject("cate", iCategoryService.finAll());
+        mV.addObject("searchBlog", searchBlog);
         mV.addObject("user",user);
         return mV;
     }
