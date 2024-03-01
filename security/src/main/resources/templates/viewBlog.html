@@ -119,14 +119,17 @@
                 <p class="comment-text" th:text="${c.content}"></p>
                 <p class="comment-time" th:text="${c.getDateTime()}"></p>
                 <span sec:authorize="hasRole('ADMIN')">
-                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal" th:data-id="${c.id}" th:data-idBlogg="${c.blog.getId()}" th:onclick="deleteInfo(this.getAttribute('data-id'),this.getAttribute('data-idBlogg'))" >XOÁ</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal"
+                            th:data-id="${c.id}" th:data-idBlogg="${c.blog.getId()}"
+                            th:onclick="deleteInfo(this.getAttribute('data-id'),this.getAttribute('data-idBlogg'))">XOÁ</button>
                 </span>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form action="/deleteComment" method="get">
             <div class="modal-content">
@@ -137,7 +140,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input  name="id" id="id" hidden="hidden">
+                    <input name="id" id="id" hidden="hidden">
                     <input name="idBlog" id="idBlog" hidden="hidden">
                     <p>Xác nhận xóa ?</p>
                 </div>
@@ -149,18 +152,21 @@
         </form>
     </div>
 </div>
-
-<div class="reply-section">
-    <form class="comment-form" method="post" th:action="@{/postComment}">
-        <h3 style="color: #CCCCCC">Thêm bình luận</h3>
-        <div class="mb-3">
-            <input name="id" th:value="${blog.id}" hidden="hidden">
-            <input name="idUser" th:value="${userBlog.getId()}" hidden="hidden">
-            <textarea class="form-control" name="comment" id="commentContent" rows="3" required
-                      placeholder="Nhập bình luận..."></textarea>
+<div class="wrap-cmt">
+    <div class="comment">
+        <div class="reply-section">
+            <form class="comment-form" method="post" th:action="@{/postComment}">
+                <h3 style="color: #CCCCCC">Thêm bình luận</h3>
+                <div class="mb-3">
+                    <input name="id" th:value="${blog.id}" hidden="hidden">
+                    <input name="idUser" th:value="${userBlog.getId()}" hidden="hidden">
+                    <textarea class="form-control" name="comment" id="commentContent" rows="3" required
+                              placeholder="Nhập bình luận..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
         </div>
-        <button type="submit" class="btn btn-primary">Post Comment</button>
-    </form>
+    </div>
 </div>
 </div>
 
@@ -173,8 +179,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script>
-    function deleteInfo(id,idBlog) {
-        document.getElementById("id").value=id;
-        document.getElementById("idBlog").value=idBlog;
+    function deleteInfo(id, idBlog) {
+        document.getElementById("id").value = id;
+        document.getElementById("idBlog").value = idBlog;
     }
 </script>

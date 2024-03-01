@@ -44,7 +44,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         if (categoryService.findOneByName("Phần Mềm") == null) {
             categoryService.save(new Category("Phần Mềm"));
         }
-        
+
         if (categoryService.findOneByName("Bảo Mật") == null) {
             categoryService.save(new Category("Bảo Mật"));
         }
