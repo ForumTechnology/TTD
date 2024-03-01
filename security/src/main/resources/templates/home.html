@@ -96,7 +96,7 @@
                             <a th:href="@{/{id}/viewBlog(id=${blog.getId()})}" th:text="${blog.name}"></a>
                             <div class="d-flex" >
                                 <div th:each="c,lop : ${cate}">
-                                    <p style="color: #828080; margin-right: 5px;" th:if="${blog.category.id == c.id}">Chủ đề: <span style="color: #ff5722;" th:text="${c.name}"></span></p>
+                                    <p style="color: #828080; margin-right: 5px;" th:if="${blog.category.id == c.id}">Chủ đề: <a th:href="@{{id}/searchByCategory(id=${c.id})}"><span style="color: #ff5722;" th:text="${c.name}"></span></a></p>
                                 </div>
                                 <p style="color: #828080;">Bởi <span style="color: red;" th:text="${blog.author}"></span></p>
                             </div>

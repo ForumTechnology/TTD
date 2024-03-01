@@ -19,6 +19,12 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    public Category findByName(String name) {
+        return iCategoryRepository.findByName(name);
+    }
+
+
+    @Override
     public Category findById(Long id) {
         return iCategoryRepository.findById(id).orElse(null);
     }

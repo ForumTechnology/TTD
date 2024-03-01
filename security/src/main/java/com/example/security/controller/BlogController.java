@@ -52,7 +52,7 @@ public class BlogController {
     @RequestMapping("/showListBlog")
     @GetMapping
     public ModelAndView showListAfterLogin(@RequestParam(defaultValue = "0") int page,Principal principal, Model model) {
-        Sort sort = Sort.by("name").ascending();
+        Sort sort = Sort.by("name").descending();
         Pageable pageable = PageRequest.of(page, 99, sort);
         Page<Blog> blogs = iBlogService.findAll(pageable);
         int size = blogs.getTotalPages();
@@ -83,6 +83,23 @@ public class BlogController {
         model.addAttribute("categoryList", iCategoryService.finAll());
         ModelAndView mV = new ModelAndView("/search");
 
+        mV.addObject("cate", iCategoryService.finAll());
+        mV.addObject("searchBlog", searchBlog);
+        mV.addObject("user",user);
+        return mV;
+    }
+
+    @RequestMapping("{id}/searchByCategory")
+    @GetMapping
+    public ModelAndView searchCategory(@PathVariable("id") Long id,Principal principal, Model model) {
+        Category category = iCategoryService.findById(id);
+        List<Blog> searchBlog = category.getBlogList();
+        User user = new User();
+        String email = principal.getName();
+        user.setEmail(email);
+        model.addAttribute("blog", new Blog());
+        model.addAttribute("categoryList", iCategoryService.finAll());
+        ModelAndView mV = new ModelAndView("/search");
         mV.addObject("cate", iCategoryService.finAll());
         mV.addObject("searchBlog", searchBlog);
         mV.addObject("user",user);
