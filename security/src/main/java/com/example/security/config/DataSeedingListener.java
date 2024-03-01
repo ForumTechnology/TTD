@@ -1,10 +1,13 @@
 package com.example.security.config;
 
 import com.example.security.common.EncryptPasswordUtils;
+import com.example.security.model.Blog.Category;
 import com.example.security.model.Role;
 import com.example.security.model.User;
+import com.example.security.repository.ICategoryRepository;
 import com.example.security.repository.RoleRepository;
 import com.example.security.repository.UserRepository;
+import com.example.security.service.CategoryService.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -20,6 +23,10 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private ICategoryRepository categoryService;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (roleRepository.findByName("ROLE_ADMIN") == null) {
@@ -29,6 +36,19 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         if (roleRepository.findByName("ROLE_USER") == null) {
             roleRepository.save(new Role("ROLE_USER"));
         }
+
+        if (categoryService.findOneByName("Di ") == null) {
+            categoryService.save(new Category("Phần Cứng"));
+        }
+
+        if (categoryService.findOneByName("Phần Mềm") == null) {
+            categoryService.save(new Category("Phần Mềm"));
+        }
+        
+        if (categoryService.findOneByName("Bảo Mật") == null) {
+            categoryService.save(new Category("Bảo Mật"));
+        }
+
 
         //them admin
         if (userRepository.findByEmail("admin@gmail.com") == null) {

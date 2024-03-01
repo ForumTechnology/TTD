@@ -16,6 +16,10 @@ public class Category {
     public Category() {
     }
 
+    public Category(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

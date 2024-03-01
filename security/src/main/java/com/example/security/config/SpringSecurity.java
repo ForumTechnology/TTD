@@ -30,8 +30,8 @@ public class SpringSecurity {
                         .shouldFilterAllDispatcherTypes(true)
                         // Trước dấu / đầu tiên là localhost:8080
                         // /** -> chấp nhận mọi request bắt đầu = login
-                        .requestMatchers("/login/**").permitAll()
-                        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+//                        .requestMatchers("/login/**").permitAll()
+                        .requestMatchers("/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                         .anyRequest().authenticated()
                 )
