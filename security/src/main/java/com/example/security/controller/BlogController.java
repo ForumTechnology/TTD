@@ -199,6 +199,11 @@ public class BlogController {
         model.addAttribute("blog",iBlogService.findAlll());
         return "duyetBaiViet";
     }
+    @GetMapping("/deleteDb")
+    public String deleteDuyetBai(@RequestParam("id") Long id,Model model){
+        iBlogService.delete(id);
+        return "redirect:/showDuyetBai";
+    }
 
     @GetMapping("/xacNhanDuyetBai")
     public ModelAndView duyetBai(@RequestParam("id")Long id,Model model){

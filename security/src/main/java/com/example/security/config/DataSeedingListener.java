@@ -37,7 +37,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             roleRepository.save(new Role("ROLE_USER"));
         }
 
-        if (categoryService.findOneByName("Di ") == null) {
+        if (categoryService.findOneByName("Phần Cứng") == null) {
             categoryService.save(new Category("Phần Cứng"));
         }
 

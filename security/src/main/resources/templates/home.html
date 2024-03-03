@@ -134,21 +134,21 @@
                                     <form th:action="@{/createBlog}" th:object="${blog}" method="post">
                                         <input type="hidden" value=0 th:field="*{viewBlog}">
                                         <input type="hidden" value=0 th:field="*{likeBlog}">
-                                        <label for="inputName" class="col-form-label">Title:</label>
+                                        <label for="inputName" class="col-form-label">Tiêu đề:</label>
                                         <input type="text" style="border: 1px solid black" th:field="*{name}" id="inputName">
                                         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
 
-                                        <label for="inputContent" class="col-form-label">Content:</label>
+                                        <label for="inputContent" class="col-form-label">Nội dung:</label>
                                         <textarea type="text" th:field="*{type}" id="inputContent"></textarea>
                                         <p th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></p>
 
-                                        <label for="inputCate" class="col-form-label">Category</label>
+                                        <label for="inputCate" class="col-form-label">Chủ đề</label>
                                         <select th:field="*{category}" id="inputCate">
                                             <option th:each="p : ${categoryList}" th:value="${p.id}" th:text="${p.name}"></option>
                                         </select>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                            <button type="submit" class="btn btn-primary">Lưu</button>
                                         </div>
                                     </form>
                                 </div>
