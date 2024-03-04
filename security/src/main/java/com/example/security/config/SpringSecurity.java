@@ -36,7 +36,7 @@ public class SpringSecurity {
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/").loginPage("/login")    // URL của trang đang nhập
+                        .loginPage("/").loginPage("/login").loginPage("/detail")    // URL của trang đang nhập
                         .loginProcessingUrl("/login") // xử lý đăng nhập tự động
                         .defaultSuccessUrl("/showListBlog") // URL mặc định sau khi đăng nhập thành công
                         .permitAll()
