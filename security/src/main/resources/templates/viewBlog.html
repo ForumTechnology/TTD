@@ -81,20 +81,19 @@
 
     <div class="info d-flex justify-content-between">
         <div class="d-flex flex-column">
-            <p>Người đăng: <span style="color: #ff5722;" th:text="${user.email}"></span></p>
+            <p>Người đăng: <span style="color: #ff5722;" th:text="${userBlog.email}"></span></p>
             <div th:each="c,lop : ${category}">
                 <p style="color: #828080; margin-right: 5px;" th:if="${blog.category.id == c.id}">Chủ đề: <span
                         style="color: #ff5722;" th:text="${c.name}"></span></p>
             </div>
         </div>
         <div>
-            <p th:text="${blog.getCreationDate()}"> | <span>Phản hồi: 12</span></p>
+            <p th:text="${blog.getCreationDate()}"> | <span th:text="${blog.comments.size()}"></span></p>
         </div>
     </div>
 
     <div class="news">
         <p th:text="${blog.type}">
-
         </p>
     </div>
     <hr style="color: white;">
@@ -102,32 +101,79 @@
         <i class="fa-solid fa-heart"></i>
         <i class="fa-solid fa-bookmark"></i>
     </div>
+
+    <!--button xoa blog-->
+    <div th:if="${user.email == blog.user.email}">
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal"
+                th:data-id="${blog.id}" th:data-title="${blog.name}"
+                th:onclick="deleteInfoDelete(this.getAttribute('data-id'),this.getAttribute('data-title'))">XOÁ
+        </button>
+    </div>
+    <div sec:authorize="hasRole('ADMIN')">
+        <div th:if="${user.email != blog.user.email}">
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal"
+                    th:data-id="${blog.id}" th:data-title="${blog.name}"
+                    th:onclick="deleteInfoDelete(this.getAttribute('data-id'),this.getAttribute('data-title'))">XOÁ
+            </button>
+        </div>
+    </div>
+
 </div>
-<!--<div class="comment" th:each="c,loop : ${comment}">&ndash;&gt;-->
-<!--        <div th:if="${c.getBlog().id == blog.id}">-->
-<!--            <p><strong th:text="${user.email}"></strong> - <span th:text="${c.getDateTime()}"></span></p>-->
-<!--            <p th:text="${c.content}">No comment</p>-->
-<!--        </div>-->
-<!--    </div>-->
+
 <div th:each="c,loop : ${comment}">
     <div th:if="${c.blog.id == blog.id}">
         <div class="wrap-cmt">
             <div class="comment">
                 <div class="user-info">
-                    <p style="color: #ff5722;" th:text="${user.email}"></p>
+                    <p style="color: #ff5722;" th:text="${c.user.email}"></p>
                 </div>
                 <p class="comment-text" th:text="${c.content}"></p>
                 <p class="comment-time" th:text="${c.getDateTime()}"></p>
                 <span sec:authorize="hasRole('ADMIN')">
+                    <div th:if="${user.email != blog.user.email}">
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal"
                             th:data-id="${c.id}" th:data-idBlogg="${c.blog.getId()}"
                             th:onclick="deleteInfo(this.getAttribute('data-id'),this.getAttribute('data-idBlogg'))">XOÁ</button>
+                    </div>
+                </span>
+                <span sec:authorize="hasRole('USER')">
+
+                        <div th:if="${c.user.email == user.email}">
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal"
+                                    th:data-id="${c.id}" th:data-idBlogg="${c.blog.getId()}"
+                                    th:onclick="deleteInfo(this.getAttribute('data-id'),this.getAttribute('data-idBlogg'))">XOÁ</button>
+                        </div>
+
                 </span>
             </div>
         </div>
     </div>
 </div>
-
+<!--delete blog-->
+<div class="modal fade" id="exampleModalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelDelete"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="/delete" method="get">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelDelete">Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input hidden name="id" id="id">
+                    <span>Do you want delete </span><span id="deleteName"></span><span>?</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--delete comment-->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -140,7 +186,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input name="id" id="id" hidden="hidden">
+                    <input name="idComment" id="idComment" hidden="hidden">
                     <input name="idBlog" id="idBlog" hidden="hidden">
                     <p>Xác nhận xóa ?</p>
                 </div>
@@ -179,8 +225,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script>
-    function deleteInfo(id, idBlog) {
-        document.getElementById("id").value = id;
+    function deleteInfo(idComment, idBlog) {
+        document.getElementById("idComment").value = idComment;
         document.getElementById("idBlog").value = idBlog;
+    }
+
+    function deleteInfoDeleteBlog(id, title) {
+        document.getElementById("id").value = id;
+        document.getElementById("deleteName").innerText = title;
     }
 </script>

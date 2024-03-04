@@ -226,7 +226,7 @@ public class BlogController {
         return mv;
     }
     @GetMapping("/deleteComment")
-    public String deleteComment(@RequestParam("id") Long id,@RequestParam("idBlog") Long idBlog,Model model){
+    public String deleteComment(@RequestParam("idComment") Long id,@RequestParam("idBlog") Long idBlog,Model model){
         iCommentBlogService.delete(id);
         truLuotXem(idBlog);
         return "redirect:/"+idBlog+"/viewBlog";
