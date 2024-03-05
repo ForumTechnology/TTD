@@ -40,6 +40,10 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
+<div th:if="${createMess}" class="message">
+    <div th:text="${createMess}">
+    </div>
+</div>
 
 <body style="background-color: rgb(30, 30, 30);">
     <div class="wrap">
@@ -65,13 +69,13 @@
                         <div sec:authorize="hasRole('ADMIN')">
                             <a th:href="@{/showDuyetBai}"><i class="fa-solid fa-list-check"></i></a>
                         </div>
-                        <i class="fa-solid fa-user"></i>
+                        <a th:href="@{/user/showMylistBlog}"><i class="fa-solid fa-user"></i></a>
                         <a href="/"><i class="fa-solid fa-right-from-bracket"></i></a>
 
                     </div>
                 </div>
             </div>
-            <h1 class="focus-in-expand">DIỄN ĐÀN CÔNG NGHỆ</h1>
+            <h1 class="focus-in-expand">DANH SÁCH BÀI VIẾT</h1>
         </div>
     </div>
     <div class="container-search d-flex">

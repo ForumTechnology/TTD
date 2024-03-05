@@ -30,13 +30,13 @@ public class SpringSecurity {
                         .shouldFilterAllDispatcherTypes(true)
                         // Trước dấu / đầu tiên là localhost:8080
                         // /** -> chấp nhận mọi request bắt đầu = login
-//                        .requestMatchers("/login/**").permitAll()
+                        .requestMatchers("/login/**").permitAll()
                         .requestMatchers("/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/").loginPage("/login").loginPage("/detail")    // URL của trang đang nhập
+                        .loginPage("/login").loginPage("/")  // URL của trang đang nhập
                         .loginProcessingUrl("/login") // xử lý đăng nhập tự động
                         .defaultSuccessUrl("/showListBlog") // URL mặc định sau khi đăng nhập thành công
                         .permitAll()

@@ -40,9 +40,26 @@ public class BlogController {
     private ICommentBlogService iCommentBlogService;
 
     @GetMapping("/")
-    public ModelAndView detail(@RequestParam(defaultValue = "0") int page) {
+    public ModelAndView detail(@RequestParam(defaultValue = "0") int page,Principal principal, Model model) {
+        Sort sort = Sort.by("name").descending();
+        Pageable pageable = PageRequest.of(page, 99, sort);
+        Page<Blog> blogs = iBlogService.findAll(pageable);
+        int size = blogs.getTotalPages();
+        List<Integer> listPage = new ArrayList<>();
+        for (int i = 1; i <= size; i++) {
+            listPage.add(i);
+        }
+
+        model.addAttribute("blog", new Blog());
+        model.addAttribute("categoryList", iCategoryService.finAll());
         ModelAndView mV = new ModelAndView("/detail");
+        mV.addObject("pages", listPage);
+        mV.addObject("cate", iCategoryService.finAll());
+        mV.addObject("list", blogs);
+
+
         return mV;
+
     }
     @RequestMapping("/login")
     @GetMapping
@@ -70,6 +87,7 @@ public class BlogController {
         mV.addObject("cate", iCategoryService.finAll());
         mV.addObject("list", blogs);
         mV.addObject("user",user);
+
         return mV;
     }
     @RequestMapping("/searchBlog")
@@ -191,6 +209,7 @@ public class BlogController {
         s.setAuthor(email);
         s.setCategory(category);
         iBlogService.addNewBlog(s);
+        model.addAttribute("createMess","Đã gửi bài viết đến Admin duyệt.");
         return "redirect:/showListBlog";
     }
 

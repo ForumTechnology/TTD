@@ -64,6 +64,15 @@ public class UserController {
         iUserService.save(user.get());
         return mv;
     }
+    @GetMapping
+    @RequestMapping("/showMylistBlog")
+    public String showMyListBlog(Model model,Principal principal){
+        String email = principal.getName();
+        User user = iUserService.findUserByEmail(email);
+        List<Blog> blogs = user.getBlogs();
+        model.addAttribute("blogs",blogs);
+        return "/showMyListBlog";
+    }
 
     @GetMapping("/showList")
     private ModelAndView showListUser(@RequestParam(defaultValue = "0") int page){

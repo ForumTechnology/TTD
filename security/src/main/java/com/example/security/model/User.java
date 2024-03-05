@@ -1,5 +1,6 @@
 package com.example.security.model;
 
+import com.example.security.model.Blog.Blog;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Blog> blogs;
     private Boolean status;
 
     public Boolean getStatus() {
@@ -30,6 +34,15 @@ public class User {
     }
 
     public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public User(Long id, String email, String password, List<Role> roles, List<Blog> blogs, Boolean status) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.blogs = blogs;
         this.status = status;
     }
 
@@ -45,6 +58,14 @@ public class User {
         this.email = email;
         this.password = password;
         this.roles = roles;
+    }
+
+    public List<Blog> getBlogs() {
+        return blogs;
+    }
+
+    public void setBlogs(List<Blog> blogs) {
+        this.blogs = blogs;
     }
 
     public User() {

@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -40,6 +47,10 @@
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
+<div th:if="${createMess}" class="message">
+    <div th:text="${createMess}">
+    </div>
+</div>
 
 <body style="background-color: rgb(30, 30, 30);">
 <div class="wrap">
@@ -62,11 +73,16 @@
                 </div>
                 <div class="user">
                     <i class="fa-solid fa-bell"></i>
-                    <a th:href="@{/login}"><i class="fa-solid fa-user"></i></a>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/showDuyetBai}"><i class="fa-solid fa-list-check"></i></a>
+                    </div>
+                    <a th:href="@{/user/showMylistBlog}"><i class="fa-solid fa-user"></i></a>
+                    <a href="/"><i class="fa-solid fa-right-from-bracket"></i></a>
+
                 </div>
             </div>
         </div>
-        <h1 class="focus-in-expand">DIỄN ĐÀN CÔNG NGHỆ</h1>
+        <h1 class="focus-in-expand">DANH SÁCH BÀI VIẾT ĐÃ ĐĂNG</h1>
     </div>
 </div>
 <div class="container-search d-flex">
@@ -85,13 +101,13 @@
                 <th class="like">LƯỢT THÍCH</th>
                 <th class="date">NGÀY ĐĂNG</th>
             </tr>
-            <tr th:each="blog,loop : ${list}">
+            <tr th:each="blog,loop : ${blogs}">
                 <div th:if="${blog.getStatus()}">
                     <td class="d-flex flex-column">
-                        <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal" th:text="${blog.name}"></a>
+                        <a th:href="@{/{id}/viewBlog(id=${blog.getId()})}" th:text="${blog.name}"></a>
                         <div class="d-flex" >
                             <div th:each="c,lop : ${cate}">
-                                <p style="color: #828080; margin-right: 5px;" th:if="${blog.category.id == c.id}">Chủ đề: <a data-bs-toggle="modal" data-bs-target="#exampleModal"><span style="color: #ff5722;" th:text="${c.name}"></span></a></p>
+                                <p style="color: #828080; margin-right: 5px;" th:if="${blog.category.id == c.id}">Chủ đề: <a th:href="@{{id}/searchByCategory(id=${c.id})}"><span style="color: #ff5722;" th:text="${c.name}"></span></a></p>
                             </div>
                             <p style="color: #828080;">Bởi <span style="color: red;" th:text="${blog.author}"></span></p>
                         </div>
@@ -107,34 +123,7 @@
         </table>
     </div>
 
-    <div class="post-panigation ">
-        <div>
-            <!-- Button trigger modal -->
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                ĐĂNG BÀI <i class="fa-solid fa-pen"></i>
-            </button>
 
-            <!-- Modal Post blog-->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            10px; <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Cần đăng nhập để thực hiện
-                        </div>
-                        <div class="modal-footer">
-<!--                            <a th:href="/showRegister"><button type="button" class="btn btn-primary">Đăng ký</button></a>-->
-                            <a href="/login"><button type="button" class="btn btn-primary">Đăng nhâp</button></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div>
             <nav aria-label="Page navigation example">
@@ -448,4 +437,5 @@
     }
 </style>
 </html>
-
+</body>
+</html>
