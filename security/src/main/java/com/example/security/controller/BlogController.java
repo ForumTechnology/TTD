@@ -209,7 +209,8 @@ public class BlogController {
         s.setAuthor(email);
         s.setCategory(category);
         iBlogService.addNewBlog(s);
-        model.addAttribute("createMess","Đã gửi bài viết đến Admin duyệt.");
+        String mess = "Đã gửi bài viết đến Admin duyệt.";
+        model.addAttribute("mess",mess);
         return "redirect:/showListBlog";
     }
 
