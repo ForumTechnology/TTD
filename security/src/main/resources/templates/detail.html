@@ -117,19 +117,14 @@
             <!-- Modal Post blog-->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            10px; <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content ">
                         <div class="modal-body">
-                            Cần đăng nhập để thực hiện
+                          <p style="text-align: center">CẦN ĐĂNG NHẬP ĐỂ THỰC HIỆN</p>
                         </div>
-                        <div class="modal-footer">
-                            <a th:href="@{/user/showRegister}"><button type="button" class="btn btn-primary">Đăng ký</button></a>
-                            <a th:href="@{/login}"><button type="button" class="btn btn-primary">Đăng nhâp</button></a>
+                        <div class="modal-footer d-flex justify-content-center">
+                            <a th:href="@{/user/showRegister}"><button type="button" class="btn">Đăng ký</button></a>
+                            <a th:href="@{/login}"><button type="button" class="btn">Đăng nhâp</button></a>
                         </div>
                     </div>
                 </div>
