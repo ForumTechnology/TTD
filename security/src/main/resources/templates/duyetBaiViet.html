@@ -26,7 +26,7 @@
     <tr th:each="u,loop : ${blog}">
         <div th:unless="${u.getStatus()}">
             <td th:text="${loop.count}"></td>
-            <td th:text="${u.name}"></td>
+            <td > <a th:href="@{/{id}/viewBlog(id = ${u.id})}" th:text="${u.name}"></a></td>
             <td th:text="${u.author}"></td>
             <td th:text="${u.getCreationDate()}"></td>
         <td>

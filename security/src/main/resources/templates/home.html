@@ -40,10 +40,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
-<div th:if="${createMess}" class="message">
-    <p th:text="${createMess}">
-    </p>
-</div>
+
 
 <body style="background-color: rgb(30, 30, 30);">
     <div class="wrap">
@@ -78,6 +75,7 @@
             <h1 class="focus-in-expand">DANH SÁCH BÀI VIẾT</h1>
         </div>
     </div>
+
     <div class="container-search d-flex">
         <form method="get" th:action="@{/searchBlog}" style="display: flex;align-items: center">
             <input type="text" placeholder="Nhập tên chủ đề bạn muốn tìm kiếm" name="inputSearch" style="margin-right: 10px">
@@ -193,6 +191,10 @@
                 </h5>
             </div>
             <div style="background-color: #2d2d2d; padding: 10px;">
+                <div th:if="${mess != null}">
+                    <h3 th:text="${mess}">
+                    </h3>
+                </div>
                 <ul>
                     <li>Tôn trọng và Các Nội Quy Etiquette:
                         <ul>

@@ -69,7 +69,7 @@ public class BlogController {
     @RequestMapping("/showListBlog")
     @GetMapping
     public ModelAndView showListAfterLogin(@RequestParam(defaultValue = "0") int page,Principal principal, Model model) {
-        Sort sort = Sort.by("name").descending();
+        Sort sort = Sort.by("creationDate").descending();
         Pageable pageable = PageRequest.of(page, 99, sort);
         Page<Blog> blogs = iBlogService.findAll(pageable);
         int size = blogs.getTotalPages();
@@ -171,7 +171,6 @@ public class BlogController {
         model.addAttribute("user", new User());
         return "register";
     }
-
 
     @GetMapping("/{id}/showDelete")
     public String showDelete(@PathVariable("id") Long id,Model model) {
