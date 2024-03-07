@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -297,6 +297,30 @@
     </div>
 </div>
 
+<div>
+    <form class="form">
+        email: <input th:value="${user.email}" disabled>
+        <div th:if="${user.userName} == null">
+            Họ tên: <input th:value="${user.userName}">
+        </div>
+        <div th:if="${user.birthDay} == null">
+            Ngày sinh: <input th:value="${user.birthDay}" type="date">
+        </div>
+        <div th:if="${user.phoneNumber} == null">
+            Số điện thoại: <input th:text="${user.phoneNumber}" type="number">
+        </div>
+        <div th:if="${user.userName} != null">
+            Họ tên: <input th:value="${user.userName}" disabled>
+        </div>
+        <div th:if="${user.birthDay} != null">
+            Ngày sinh: <input th:value="${user.birthDay}" type="date" disabled>
+        </div>
+        <div th:if="${user.phoneNumber} != null">
+            Số điện thoại: <input th:value="${user.phoneNumber}" type="number" disabled>
+        </div>
+        <input type="submit" value="Lưu">
+    </form>
+</div>
 
 <div class="wrap-content">
     <div class="content">

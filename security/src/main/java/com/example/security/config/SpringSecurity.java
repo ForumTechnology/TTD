@@ -31,6 +31,7 @@ public class SpringSecurity {
                         // Trước dấu / đầu tiên là localhost:8080
                         // /** -> chấp nhận mọi request bắt đầu = login
                         .requestMatchers("/user/showRegister").permitAll()
+                        .requestMatchers("/user/registration").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN")

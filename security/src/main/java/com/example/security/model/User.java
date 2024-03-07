@@ -27,6 +27,9 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Blog> blogs;
     private Boolean status;
+    private String userName;
+    private String phoneNumber;
+    private String birthDay;
 
     public Boolean getStatus() {
         return status;
@@ -35,6 +38,7 @@ public class User {
     public void setStatus(Boolean status) {
         this.status = status;
     }
+
 
     public User(Long id, String email, String password, List<Role> roles, List<Blog> blogs, Boolean status) {
         this.id = id;
@@ -58,6 +62,9 @@ public class User {
         this.password = password;
         this.roles = roles;
     }
+    public User() {
+        this.status = true;
+    }
 
     public List<Blog> getBlogs() {
         return blogs;
@@ -67,8 +74,28 @@ public class User {
         this.blogs = blogs;
     }
 
-    public User() {
-        this.status = true;
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(String birthDay) {
+        this.birthDay = birthDay;
     }
 
     public Long getId() {

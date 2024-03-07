@@ -70,6 +70,7 @@ public class UserController {
         String email = principal.getName();
         User user = iUserService.findUserByEmail(email);
         List<Blog> blogs = user.getBlogs();
+        model.addAttribute("user",user);
         model.addAttribute("blogs",blogs);
         return "/showMyListBlog";
     }
@@ -126,6 +127,8 @@ public String showRegister(Model model) {
             roles.add(roleRepository.findByName("ROLE_USER"));
             admin.setRoles(roles);
             userRepository.save(admin);
+        }else{
+
         }
         return "redirect:/";
     }

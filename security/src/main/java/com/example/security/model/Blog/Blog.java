@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -31,33 +32,28 @@ public class Blog {
         this.status = status;
     }
 
-    public Blog(Long id, String name, String type, int likeBlog, int viewBlog, String author, Boolean status, LocalDateTime creationDate, User user, Category category, List<CommentBlog> comments) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.likeBlog = likeBlog;
-        this.viewBlog = viewBlog;
-        this.author = author;
-        this.status = status;
-        this.creationDate = creationDate;
-        this.user = user;
-        this.category = category;
-        this.comments = comments;
-    }
+
 
     @Column(name = "creation_date")
-    private LocalDateTime creationDate;
+    private String creationDate;
 
-    public LocalDateTime getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
+    }
+    public String formatDate(){
+        LocalDateTime now = LocalDateTime.now();
+
+        // Định dạng theo mẫu cụ thể và in ra chuỗi
+        String formattedDateTime = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd , HH:mm"));
+        return formattedDateTime;
     }
 
     public Blog() {
-        this.creationDate = LocalDateTime.now();
+         this.creationDate = formatDate();
         this.status = false;
     }
 
@@ -145,16 +141,5 @@ public class Blog {
         this.viewBlog = viewBlog;
     }
 
-    public Blog(Long id, String name, String type, int likeBlog, int viewBlog, String author, LocalDateTime creationDate, User user, Category category, List<CommentBlog> comments) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.likeBlog = likeBlog;
-        this.viewBlog = viewBlog;
-        this.author = author;
-        this.creationDate = creationDate;
-        this.user = user;
-        this.category = category;
-        this.comments = comments;
-    }
+
 }
