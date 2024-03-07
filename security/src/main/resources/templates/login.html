@@ -43,14 +43,32 @@
         .bg-container{
             background-image: url("https://i.ytimg.com/vi/trkqHgQ6blI/maxresdefault.jpg");
             width: 100%;
-            background-size: covers;
+            height: 100vh;
+            background-size: cover;
+            background-repeat: no-repeat;
         }
+
+        label, .rdr{
+            color: #ff5722;
+        }
+
+        .btn {
+            border-radius: 5px !important;
+            background-color: #ff5722 !important;
+            color: white !important;
+        }
+
+        .btn:hover {
+            background-color: rgb(244, 181, 86) !important;
+        }
+
+
     </style>
 </head>
 <body class="bg-container">
-<div style="background-color: white;width: 700px;height: auto;padding: 10px;margin: 100px auto;border-radius: 10px ">
-    <a href="/" style="padding: 10px; border-radius: 10px;margin-left: 10px"> <i class="fa-solid fa-chevron-left"></i></a>
-    <h1 style="text-align: center">ĐĂNG NHẬP</h1>
+<div style="background-color: white;width: 750px;height: auto;padding: 20px;margin: 100px auto;border-radius: 10px ">
+    <a href="/" style="padding: 5px 10px; border-radius: 50%;margin-left: 10px;background-color: #ff5722;color: white"> <i class="fa-solid fa-chevron-left"></i></a>
+    <h1 style="text-align: center;color: #ff5722">ĐĂNG NHẬP</h1>
     <div th:if="${param.error}">
         <div class="alert alert-danger">Email hoặc Password không đúng !!!</div>
     </div>
@@ -76,13 +94,13 @@
                     <label for="remember-me">Nhớ đăng nhập</label>
                 </div>
                 <div>
-                    <a href="">Quên mật khẩu</a>
+                    <a class="rdr" href="">Quên mật khẩu</a>
                 </div>
 
             </div>
             <div class="d-flex flex-column">
-                <button class="btn btn-primary mb-3" type="submit">Xác Nhận</button>
-                <span style="text-align: center">Chưa có tài khoản?  <a th:href="@{/user/showRegister}">Đăng ký</a></span>
+                <button class="btn mb-3" type="submit">Xác Nhận</button>
+                <span style="text-align: center">Chưa có tài khoản?  <a class="rdr" th:href="@{/user/showRegister}">Đăng ký</a></span>
 
             </div>
 

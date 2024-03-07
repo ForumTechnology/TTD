@@ -47,7 +47,8 @@
         <div class="navbar">
             <div class="logo">
                 <b>
-                    <a th:href="@{/showListBlog}"><p style="color: #ff5722;font-size: 25px;">TECH<span
+                    <a style="text-decoration: none" th:href="@{/showListBlog}"><p
+                            style="color: #ff5722;font-size: 25px;">TECH<span
                             style="color: white;">TALK</span></p></a>
                 </b>
             </div>
@@ -71,13 +72,37 @@
         <h1 class="focus-in-expand">CHI TIẾT BÀI VIẾT</h1>
     </div>
 </div>
-<a th:href="@{/showListBlog}">
-    <button class="btn btn-primary mb-3" type="button">Quay lại</button>
-</a>
+    <a th:href="@{/showListBlog}">
+        <button class="btn" type="button" >Quay lại</button>
+    </a>
 <div class="wrap-news">
-    <h1>
-        <b th:text="${blog.name}"></b>
-    </h1>
+    <div class="d-flex justify-content-between">
+        <h1>
+            <b th:text="${blog.name}"></b>
+        </h1>
+        <div>
+            <!--button xoa blog-->
+            <div th:if="${user.email == blog.user.email}">
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                        data-target="#exampleModalDelete"
+                        th:data-id="${blog.id}" th:data-title="${blog.name}"
+                        th:onclick="deleteInfoDeleteBlog(this.getAttribute('data-id'),this.getAttribute('data-title'))">
+                    XOÁ
+                </button>
+            </div>
+            <div sec:authorize="hasRole('ADMIN')">
+                <div th:if="${user.email != blog.user.email}">
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                            data-target="#exampleModalDelete"
+                            th:data-id="${blog.id}" th:data-title="${blog.name}"
+                            th:onclick="deleteInfoDeleteBlog(this.getAttribute('data-id'),this.getAttribute('data-title'))">
+                        XOÁ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="info d-flex justify-content-between">
         <div class="d-flex flex-column">
@@ -102,21 +127,6 @@
         <i class="fa-solid fa-bookmark"></i>
     </div>
 
-    <!--button xoa blog-->
-    <div th:if="${user.email == blog.user.email}">
-        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModalDelete"
-                th:data-id="${blog.id}" th:data-title="${blog.name}"
-                th:onclick="deleteInfoDeleteBlog(this.getAttribute('data-id'),this.getAttribute('data-title'))">XOÁ
-        </button>
-    </div>
-    <div sec:authorize="hasRole('ADMIN')">
-        <div th:if="${user.email != blog.user.email}">
-            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModalDelete"
-                    th:data-id="${blog.id}" th:data-title="${blog.name}"
-                    th:onclick="deleteInfoDeleteBlog(this.getAttribute('data-id'),this.getAttribute('data-title'))">XOÁ
-            </button>
-        </div>
-    </div>
 
 </div>
 
@@ -124,27 +134,28 @@
     <div th:if="${c.blog.id == blog.id}">
         <div class="wrap-cmt">
             <div class="comment">
-                <div class="user-info">
+                <div class="user-info d-flex justify-content-between">
                     <p style="color: #ff5722;" th:text="${c.user.email}"></p>
-                </div>
-                <p class="comment-text" th:text="${c.content}"></p>
-                <p class="comment-time" th:text="${c.getDateTime()}"></p>
-                <span sec:authorize="hasRole('ADMIN')">
+                    <span sec:authorize="hasRole('ADMIN')">
                     <div th:if="${user.email != blog.user.email}">
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal"
                             th:data-id="${c.id}" th:data-idBlogg="${c.blog.getId()}"
                             th:onclick="deleteInfo(this.getAttribute('data-id'),this.getAttribute('data-idBlogg'))">XOÁ</button>
                     </div>
                 </span>
-                <span sec:authorize="hasRole('USER')">
+                    <span sec:authorize="hasRole('USER')">
 
                         <div th:if="${c.user.email == user.email}">
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal"
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target="#exampleModal"
                                     th:data-id="${c.id}" th:data-idBlogg="${c.blog.getId()}"
                                     th:onclick="deleteInfo(this.getAttribute('data-id'),this.getAttribute('data-idBlogg'))">XOÁ</button>
                         </div>
-
                 </span>
+                </div>
+                <p class="comment-text" th:text="${c.content}"></p>
+                <p class="comment-time" th:text="${c.getDateTime()}"></p>
+
             </div>
         </div>
     </div>
@@ -209,7 +220,7 @@
                     <textarea class="form-control" name="comment" id="commentContent" rows="3" required
                               placeholder="Nhập bình luận..."></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Post Comment</button>
+                <button type="submit" class="btn" style="margin: 0">Đăng</button>
             </form>
         </div>
     </div>
