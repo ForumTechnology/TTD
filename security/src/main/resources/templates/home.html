@@ -299,6 +299,9 @@
         </div>
     </div>
 
+    <div th:if="${messCreate}" th:text="${messCreate}" class="alert alert-success"></div>
+    <div th:if="${messDelete}" th:text="${messDelete}" class="alert alert-success"></div>
+
     <div class="container-search d-flex">
         <form method="get" th:action="@{/searchBlog}" style="display: flex;align-items: center">
             <input type="text" placeholder="Nhập tên chủ đề bạn muốn tìm kiếm" name="inputSearch" style="margin-right: 10px">

@@ -39,6 +39,9 @@ public class BlogController {
     @Autowired
     private ICommentBlogService iCommentBlogService;
 
+
+    Boolean temp = true, tempDelete = true;
+
     @GetMapping("/")
     public ModelAndView detail(@RequestParam(defaultValue = "0") int page,Principal principal, Model model) {
         Sort sort = Sort.by("name").descending();
@@ -87,7 +90,16 @@ public class BlogController {
         mV.addObject("cate", iCategoryService.finAll());
         mV.addObject("list", blogs);
         mV.addObject("user",user);
-
+        if (temp.equals(false)){
+            String messCreate = "Đã gửi bài viết đến Admin duyệt.";
+            mV.addObject("messCreate", messCreate);
+            temp = true;
+        }
+        if (tempDelete.equals(false)){
+            String messDelete = "Xóa bài viết thành công.";
+            mV.addObject("messDelete", messDelete);
+            tempDelete = true;
+        }
         return mV;
     }
     @RequestMapping("/searchBlog")
@@ -151,6 +163,17 @@ public class BlogController {
 
         //them luot view
         congLuotXem(id);
+        if (temp.equals(false)){
+            String messComment = "Bình luận thành công!!";
+            mv.addObject("messComment", messComment);
+            temp = true;
+        }
+
+        if (tempDelete.equals(false)){
+            String messDelete = "Xóa thành công!!";
+            mv.addObject("messDelete", messDelete);
+            temp = true;
+        }
 
         mv.addObject("userBlog",user);
         mv.addObject("user",userTemp);
@@ -180,6 +203,7 @@ public class BlogController {
     @GetMapping("/delete")
     public String delete(@RequestParam("id") Long id,Model model){
         iBlogService.delete(id);
+        tempDelete = true;
         return "redirect:/showListBlog";
     }
 
@@ -190,8 +214,7 @@ public class BlogController {
     }
 
     @PostMapping("/createBlog")
-    public String create(@Valid @ModelAttribute("blog") BlogDTO blog, BindingResult bindingResult, Model model, Principal principal) {
-        new BlogDTO().validate(blog, bindingResult);
+    public String create(@Valid @ModelAttribute("blog") BlogDTO blog, RedirectAttributes redirectAttributes, Principal principal) {
         String email = principal.getName();
 //        if (bindingResult.hasErrors()) {
 //            model.addAttribute(iCategoryService.finAll());
@@ -208,8 +231,7 @@ public class BlogController {
         s.setAuthor(email);
         s.setCategory(category);
         iBlogService.addNewBlog(s);
-        String mess = "Đã gửi bài viết đến Admin duyệt.";
-        model.addAttribute("mess",mess);
+        temp = false;
         return "redirect:/showListBlog";
     }
 
@@ -242,12 +264,14 @@ public class BlogController {
         commentBlog.setContent(comment);
         commentBlog.setUser(iUserService.findUserById(idUser).get());
         iCommentBlogService.save(commentBlog);
+        temp = false;
         return mv;
     }
     @GetMapping("/deleteComment")
     public String deleteComment(@RequestParam("idComment") Long id,@RequestParam("idBlog") Long idBlog,Model model){
         iCommentBlogService.delete(id);
         truLuotXem(idBlog);
+        temp = false;
         return "redirect:/"+idBlog+"/viewBlog";
     }
 

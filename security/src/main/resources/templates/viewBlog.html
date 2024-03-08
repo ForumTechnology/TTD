@@ -71,6 +71,8 @@
         </div>
         <h1 class="focus-in-expand">CHI TIẾT BÀI VIẾT</h1>
     </div>
+    <div th:if="${messComment}" th:text="${messComment}" class="alert alert-success"></div>
+    <div th:if="${messDelete}" th:text="${messDelete}" class="alert alert-success"></div>
 </div>
     <a th:href="@{/showListBlog}">
         <button class="btn" type="button" >Quay lại</button>
