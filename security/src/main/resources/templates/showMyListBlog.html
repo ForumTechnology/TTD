@@ -303,7 +303,7 @@
 </head>
 
 <body style="background-color: rgb(30, 30, 30);">
-<div th:if="${createMess}" style="position: absolute; top: 0;right: 0" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+<div th:if="${message}" style="position: absolute; top: 0;right: 0" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <i class="fa-regular fa-bell"></i>
@@ -313,9 +313,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
     <div class="toast-body">
-        <p th:text="${createMess}"></p>
+        <p th:text="${message}"></p>
     </div>
 </div>
+
 <div class="wrap">
     <div class="bg-header">
         <div class="navbar">
@@ -348,40 +349,45 @@
         <h1 class="focus-in-expand">THÔNG TIN CÁ NHÂN</h1>
     </div>
 </div>
-
+<a th:href="@{/showListBlog}">
+    <button class="btn" type="button" style="margin: 20px 0">Quay lại</button>
+</a>
 <div>
-    <form class="form">
-        <label>Email:</label>
-        <input style="background-color: #2d2d2d" th:value="${user.email}" disabled>
+    <form class="form" th:action="@{/user/updateProfile}" th:object="${user}" method="post">
 
+        <input th:value="${user.id}" th:field="*{id}" disabled hidden="hidden">
+
+        <label>Email:</label>
+        <input th:value="${user.email}" th:field="*{email}" >
+<!--        <input th:value="${user.password}" th:field="*{password}" disabled hidden="hidden">-->
         <div th:if="${user.userName} == null">
             <label>Họ tên:</label>
-            <input th:value="${user.userName}">
+            <input th:field="*{userName}">
         </div>
 
         <div th:if="${user.birthDay} == null">
             <label>Ngày sinh:</label>
-            <input th:value="${user.birthDay}" type="date">
+            <input th:field="*{birthDay}" type="date">
         </div>
 
         <div th:if="${user.phoneNumber} == null">
             <label>Số điện thoại:</label>
-            <input th:text="${user.phoneNumber}" type="number">
+            <input th:field="*{phoneNumber}" type="text">
         </div>
 
         <div th:if="${user.userName} != null">
             <label>Họ tên:</label>
-            <input th:value="${user.userName}" disabled class="disabled-input">
+            <input th:value="${user.userName}" th:field="*{userName}">
         </div>
 
         <div th:if="${user.birthDay} != null">
             <label>Ngày sinh:</label>
-            <input th:value="${user.birthDay}" type="date" disabled class="disabled-input">
+            <input th:value="${user.birthDay}" th:field="*{birthDay}" type="date">
         </div>
 
         <div th:if="${user.phoneNumber} != null">
             <label>Số điện thoại:</label>
-            <input th:value="${user.phoneNumber}" type="number" disabled class="disabled-input">
+            <input th:value="${user.phoneNumber}" th:field="*{phoneNumber}" type="text">
         </div>
 
         <input type="submit" value="LƯU">

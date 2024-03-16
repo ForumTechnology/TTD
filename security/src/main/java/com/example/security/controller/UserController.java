@@ -40,21 +40,7 @@ public class UserController {
     RoleRepository roleRepository;
     @Autowired
     IUserService iUserService;
-//    @GetMapping("/")
-//    public ModelAndView showList(@RequestParam(defaultValue = "0") int page) {
-//        Sort sort = Sort.by("name").ascending();
-//        Pageable pageable = PageRequest.of(page, 99, sort);
-//        Page<Blog> blogs = iBlogService.findAll(pageable);
-//        int size = blogs.getTotalPages();
-//        List<Integer> listPage = new ArrayList<>();
-//        for (int i = 1; i <= size; i++) {
-//            listPage.add(i);
-//        }
-//        ModelAndView mV = new ModelAndView("/login");
-//        mV.addObject("pages", listPage);
-//        mV.addObject("list", blogs);
-//        return mV;
-//    }
+Boolean updated = true;
 
     @GetMapping("/delete")
     public ModelAndView delete(@RequestParam("id")Long id,Model model){
@@ -64,14 +50,16 @@ public class UserController {
         iUserService.save(user.get());
         return mv;
     }
-    @GetMapping
-    @RequestMapping("/showMylistBlog")
+    @GetMapping("/showMylistBlog")
     public String showMyListBlog(Model model,Principal principal){
         String email = principal.getName();
         User user = iUserService.findUserByEmail(email);
         List<Blog> blogs = user.getBlogs();
         model.addAttribute("user",user);
         model.addAttribute("blogs",blogs);
+        if (updated.equals(false)){
+            model.addAttribute("message" , "Cập nhật thành công");
+        }
         return "/showMyListBlog";
     }
 
@@ -87,6 +75,17 @@ public class UserController {
         mv.addObject("blog",iBlogService.findAlll());
         mv.addObject("role",roles);
         return mv;
+    }
+
+    @PostMapping("/updateProfile")
+    private String updateProfile(@ModelAttribute("user") User user){
+        User temp = iUserService.findUserByEmail(user.getEmail());
+        temp.setBirthDay(user.getBirthDay());
+        temp.setPhoneNumber(user.getPhoneNumber());
+        temp.setUserName(user.getUserName());
+        iUserService.save(temp);
+        updated = false;
+        return "redirect:/user/showMylistBlog";
     }
 
 //    @PostMapping("/createBlog")
