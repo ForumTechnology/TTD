@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -138,7 +137,7 @@
         }
 
         .wrap-content {
-            width: 1200px;
+            width: 1210px;
             margin: 80px auto;
             overflow: hidden;
         }
@@ -186,7 +185,7 @@
         .view,
         .like,
         .date {
-            width: 150px;
+            width: 200px;
         }
 
         .date {
@@ -299,12 +298,36 @@
         </div>
     </div>
 
-    <div th:if="${messCreate}" th:text="${messCreate}" class="alert alert-success"></div>
-    <div th:if="${messDelete}" th:text="${messDelete}" class="alert alert-success"></div>
+    <div th:if="${messCreate}" style="position: absolute; top: 0;right: 0" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <i class="fa-regular fa-bell"></i>
+                <strong class="me-auto"> THÔNG BÁO </strong>
+                <i class="fa-regular fa-bell"></i>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <p th:text="${messCreate}"></p>
+        </div>
+    </div>
+    <div th:if="${messDelete}" style="position: absolute; top: 0;right: 0" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <i class="fa-regular fa-bell"></i>
+                <strong class="me-auto"> THÔNG BÁO </strong>
+                <i class="fa-regular fa-bell"></i>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <p th:text="${messDelete}"></p>
+        </div>
+    </div>
 
     <div class="container-search d-flex">
         <form method="get" th:action="@{/searchBlog}" style="display: flex;align-items: center">
-            <input type="text" placeholder="Nhập tên chủ đề bạn muốn tìm kiếm" name="inputSearch" style="margin-right: 10px">
+            <input type="text" placeholder="Nhập tên bài viết bạn muốn tìm kiếm" name="inputSearch" style="margin-right: 10px">
             <button type="submit">TÌM KIẾM</button>
         </form>
     </div>
@@ -315,7 +338,7 @@
                 <tr>
                     <th class="topic">TIÊU ĐỀ</th>
                     <th class="view">LƯỢT XEM</th>
-                    <th class="like">LƯỢT THÍCH</th>
+                    <th class="like">LƯỢT BÌNH LUẬN</th>
                     <th class="date">NGÀY ĐĂNG</th>
                 </tr>
                 <tr th:each="blog,loop : ${list}">
@@ -331,7 +354,7 @@
 
                         </td>
                         <td th:text="${blog.viewBlog}"></td>
-                        <td th:text="${blog.likeBlog}"></td>
+                        <td th:text="${blog.comments.size()}"></td>
                         <td>
                             <p th:text="${blog.getCreationDate()}"></p>
                         </td>
@@ -398,7 +421,6 @@
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-
                         <li class="page-item"><a class="page-link" href="#">1</a></li>
                         <li class="page-item"><a class="page-link" href="#">2</a></li>
                         <li class="page-item"><a class="page-link" href="#">3</a></li>
@@ -483,7 +505,6 @@
         <i class="fa-brands fa-unity"></i>
         <i class="fa-brands fa-digg"></i>
     </div>
-
 
 </body>
 

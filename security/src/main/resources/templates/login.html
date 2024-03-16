@@ -62,11 +62,14 @@
             background-color: rgb(244, 181, 86) !important;
         }
 
+        input{
+
+        }
 
     </style>
 </head>
 <body class="bg-container">
-<div style="background-color: white;width: 750px;height: auto;padding: 20px;margin: 100px auto;border-radius: 10px ">
+<div style="background-color: #333333;width: 750px;height: auto;padding: 20px;margin: 100px auto;border-radius: 10px ">
     <a href="/" style="padding: 5px 10px; border-radius: 50%;margin-left: 10px;background-color: #ff5722;color: white"> <i class="fa-solid fa-chevron-left"></i></a>
     <h1 style="text-align: center;color: #ff5722">ĐĂNG NHẬP</h1>
     <div th:if="${param.error}">
@@ -78,14 +81,20 @@
     <div class="container">
         <form class="form-horizontal mx-auto" method="post" role="form" th:action="@{/login}">
             <div class="mb-3">
-                <label class="form-label" for="password">Email</label>
+                <label class="form-label" for="username">Email</label>
                 <input class="form-control" id="username" name="username" placeholder="Nhập email"
-                       type="email">
+                       type="email" style="background-color: #555555;
+            color: #ff5722;
+            border-color: #555555;
+            outline: none;">
             </div>
             <div class="mb-3">
                 <label class="col-sm-2 col-form-label" for="password">Mật khẩu</label>
                 <input class="form-control" id="password" name="password" placeholder="Nhập Mật khẩu"
-                       type="password">
+                       type="password" style="background-color: #555555;
+            color: #ff5722;
+            border-color: #555555;
+            outline: none;">
             </div>
             <div class="mb-3 d-flex justify-content-between">
                 <div>
@@ -100,10 +109,8 @@
             </div>
             <div class="d-flex flex-column">
                 <button class="btn mb-3" type="submit">Xác Nhận</button>
-                <span style="text-align: center">Chưa có tài khoản?  <a class="rdr" th:href="@{/user/showRegister}">Đăng ký</a></span>
-
+                <span style="text-align: center;color: white">Chưa có tài khoản?  <a class="rdr" th:href="@{/user/showRegister}">Đăng ký</a></span>
             </div>
-
         </form>
     </div>
 </div>

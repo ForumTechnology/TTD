@@ -71,8 +71,33 @@
         </div>
         <h1 class="focus-in-expand">CHI TIẾT BÀI VIẾT</h1>
     </div>
-    <div th:if="${messComment}" th:text="${messComment}" class="alert alert-success"></div>
-    <div th:if="${messDelete}" th:text="${messDelete}" class="alert alert-success"></div>
+
+    <div th:if="${messComment}" style="position: absolute; top: 0;right: 0" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <i class="fa-regular fa-bell"></i>
+                <strong class="me-auto"> THÔNG BÁO </strong>
+                <i class="fa-regular fa-bell"></i>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <p th:text="${messComment}"></p>
+        </div>
+    </div>
+    <div th:if="${messDelete}" style="position: absolute; top: 0;right: 0" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <i class="fa-regular fa-bell"></i>
+                <strong class="me-auto"> THÔNG BÁO </strong>
+                <i class="fa-regular fa-bell"></i>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <p th:text="${messDelete}"></p>
+        </div>
+    </div>
 </div>
     <a th:href="@{/showListBlog}">
         <button class="btn" type="button" >Quay lại</button>
@@ -127,16 +152,20 @@
     <div class="status d-flex justify-content-around">
         <i class="fa-solid fa-heart"></i>
         <i class="fa-solid fa-bookmark"></i>
+        <i class="fa-solid fa-flag"></i>
     </div>
 
 
 </div>
 
-<div th:each="c,loop : ${comment}">
-    <div th:if="${c.blog.id == blog.id}">
+
         <div class="wrap-cmt">
+            <div th:each="c,loop : ${comment}">
+                <div th:if="${c.blog.id == blog.id}">
             <div class="comment">
+
                 <div class="user-info d-flex justify-content-between">
+
                     <p style="color: #ff5722;" th:text="${c.user.email}"></p>
                     <span sec:authorize="hasRole('ADMIN')">
                     <div th:if="${user.email != blog.user.email}">
@@ -169,18 +198,19 @@
         <form action="/delete" method="get">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabelDelete">Delete</h5>
+                    <h5 class="modal-title" id="exampleModalLabelDelete"><b>XÁC NHẬN XOÁ</b></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <input hidden name="id" id="id">
-                    <span>Do you want delete </span><span id="deleteName"></span><span>?</span>
+                    <span>Bạn có muốn xoá </span><span id="deleteName"></span><span>?</span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Yes</button>
+                    <button type="submit" class="btn ">Xác Nhận</button>
+                    <button type="button" class="btn " data-dismiss="modal">Đóng</button>
+
                 </div>
             </div>
         </form>
@@ -193,8 +223,7 @@
         <form action="/deleteComment" method="get">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete USER</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="exampleModalLabel"><b>XOÁ COMMENT</b></h5>
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -204,8 +233,9 @@
                     <p>Xác nhận xóa ?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Yes</button>
+                    <button type="submit" class="btn ">Xác Nhận</button>
+                    <button type="button" class="btn " data-dismiss="modal">Đóng</button>
+
                 </div>
             </div>
         </form>

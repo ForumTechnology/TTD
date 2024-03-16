@@ -256,12 +256,64 @@
             color: white !important;
             font-size: 30px;
         }
+        .form {
+            background-color: #333;
+            padding: 20px;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 1200px;
+        }
+
+        label{
+            color: #ff5722;
+        }
+
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #444444 !important;
+            border-radius: 4px;
+            background-color: #333333;
+            outline: none;
+            color: #ff5722;
+            transition: background-color .3s;
+        }
+
+        input[type="date"] {
+            padding: 8px;
+        }
+
+        input[type="submit"] {
+            background-color: #ff5722;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: rgb(244, 181, 86);
+        }
+
     </style>
 </head>
 
 <body style="background-color: rgb(30, 30, 30);">
-<div th:if="${createMess}" class="message">
-    <div th:text="${createMess}">
+<div th:if="${createMess}" style="position: absolute; top: 0;right: 0" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <i class="fa-regular fa-bell"></i>
+            <strong class="me-auto"> THÔNG BÁO </strong>
+            <i class="fa-regular fa-bell"></i>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+        <p th:text="${createMess}"></p>
     </div>
 </div>
 <div class="wrap">
@@ -293,36 +345,51 @@
                 </div>
             </div>
         </div>
-        <h1 class="focus-in-expand">DANH SÁCH BÀI VIẾT ĐÃ ĐĂNG</h1>
+        <h1 class="focus-in-expand">THÔNG TIN CÁ NHÂN</h1>
     </div>
 </div>
 
 <div>
     <form class="form">
-        email: <input th:value="${user.email}" disabled>
+        <label>Email:</label>
+        <input style="background-color: #2d2d2d" th:value="${user.email}" disabled>
+
         <div th:if="${user.userName} == null">
-            Họ tên: <input th:value="${user.userName}">
+            <label>Họ tên:</label>
+            <input th:value="${user.userName}">
         </div>
+
         <div th:if="${user.birthDay} == null">
-            Ngày sinh: <input th:value="${user.birthDay}" type="date">
+            <label>Ngày sinh:</label>
+            <input th:value="${user.birthDay}" type="date">
         </div>
+
         <div th:if="${user.phoneNumber} == null">
-            Số điện thoại: <input th:text="${user.phoneNumber}" type="number">
+            <label>Số điện thoại:</label>
+            <input th:text="${user.phoneNumber}" type="number">
         </div>
+
         <div th:if="${user.userName} != null">
-            Họ tên: <input th:value="${user.userName}" disabled>
+            <label>Họ tên:</label>
+            <input th:value="${user.userName}" disabled class="disabled-input">
         </div>
+
         <div th:if="${user.birthDay} != null">
-            Ngày sinh: <input th:value="${user.birthDay}" type="date" disabled>
+            <label>Ngày sinh:</label>
+            <input th:value="${user.birthDay}" type="date" disabled class="disabled-input">
         </div>
+
         <div th:if="${user.phoneNumber} != null">
-            Số điện thoại: <input th:value="${user.phoneNumber}" type="number" disabled>
+            <label>Số điện thoại:</label>
+            <input th:value="${user.phoneNumber}" type="number" disabled class="disabled-input">
         </div>
-        <input type="submit" value="Lưu">
+
+        <input type="submit" value="LƯU">
     </form>
 </div>
 
 <div class="wrap-content">
+    <b><h2 style="text-align: center;color: white">BÀI VIẾT ĐÃ ĐĂNG</h2></b>
     <div class="content">
         <table>
             <tr>

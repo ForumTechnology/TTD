@@ -1,100 +1,337 @@
 <!DOCTYPE html>
-<html lang="en">
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous">
 
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <!-- Thêm thư viện Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Thêm thư viện jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Thêm thư viện Slick Slider -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+    <!-- Option 1: Include in HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+          integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap');
+
+        h2,
+        h1,
+        h3,
+        h4,
+        a,
+        span,
+        p {
+            font-family: 'Nunito', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            box-sizing: border-box;
+            border: none;
+            outline: none;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .bg-header {
+            background-image: url('https://w.forfun.com/fetch/ae/ae2cbe4c74a79df332455ab8fe742e7c.jpeg');
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 250px;
+            width: 100%;
+        }
+
+        .navbar {
+            width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .icon i,
+        .user i {
+            padding: 10px;
+            color: white;
+            font-size: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .icon i:hover,
+        .user i:hover {
+            color: #ff5722;
+            border-top: 3px solid #ff5722;
+        }
+
+        .bg-header h1 {
+            color: white;
+            text-align: center;
+            font-size: 50px;
+            padding: 20px 0;
+        }
+
+        .focus-in-expand {
+            animation: focus-in-expand 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        }
+
+        @keyframes focus-in-expand {
+            0% {
+                letter-spacing: -0.5em;
+                filter: blur(12px);
+                opacity: 0;
+            }
+
+            100% {
+                filter: blur(0px);
+                opacity: 1;
+            }
+        }
+
+        .container-search {
+            width: 1200px;
+            height: 64px;
+            margin: -30px auto;
+        }
+
+        .container-search input {
+            background-color: #2d2d2d;
+            color: #ff5722;
+            padding: 0 30px;
+            width: 1100px;
+            height: 100%;
+        }
+
+        .container-search button {
+            color: white;
+            width: 100px;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(255, 152, 0, 1) 0%, rgba(255, 87, 34, 1) 100%);
+        }
+
+        .wrap-content{
+            width: 1210px;
+            margin: 10px auto;
+            padding: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #333333 !important;
+        }
+
+        th {
+            color: white;
+            background-color: #444444;
+            padding: 10px;
+            text-align: left;
+        }
+
+        td {
+            padding: 10px;
+            color: #CCCCCC;
+            border-bottom: 1px solid #444;
+        }
+
+        td a {
+            color: #ff5722;
+        }
+
+        td a:hover {
+            color: rgb(244, 181, 86);
+        }
+
+        tr {
+            border-bottom: 1px solid #444 !important;
+        }
+
+        tr:hover {
+            background-color: #444;
+        }
+
+
+        .btn {
+            border-radius: 0 !important;
+            background-color: #ff5722 !important;
+            color: white !important;
+            padding: 10px 15px;
+        }
+
+        .btn:hover {
+            background-color: rgb(244, 181, 86) !important;
+        }
+
+        li,
+        ul {
+            color: #CCCCCC !important;
+        }
+
+        .footer i {
+            padding: 20px 20px;
+            color: white !important;
+            font-size: 30px;
+        }
+
+        .wrap-icon {
+            width: 500px
+        }
+    </style>
+
 </head>
-<a th:href="@{/showListBlog}"> <button class="btn btn-primary mb-3" type="button">Quay lại</button></a>
-<span sec:authorize="!hasRole('ADMIN')">
-    <h1 style="text-align: center; color: red" id="quyen-truy-cap">KHÔNG CÓ QUYỀN TRUY CẬP</h1>
-</span>
-<span sec:authorize="hasRole('ADMIN')">
-    <body>
-<table class="table">
-    <tr>
-        <th>#</th>
-        <th>Tiêu đề</th>
-        <th>Tác giả</th>
-        <th>Thời gian</th>
-        <th>Action</th>
-    </tr>
-    <tr th:each="u,loop : ${blog}">
-        <div th:unless="${u.getStatus()}">
-            <td th:text="${loop.count}"></td>
-            <td > <a th:href="@{/{id}/viewBlog(id = ${u.id})}" th:text="${u.name}"></a></td>
-            <td th:text="${u.author}"></td>
-            <td th:text="${u.getCreationDate()}"></td>
-        <td>
-            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal2" th:data-id="${u.id}" th:data-title="${u.name}" th:onclick="deleteInfo2(this.getAttribute('data-id'),this.getAttribute('data-title'))" >Duyệt</button>
-            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal" th:data-id="${u.id}" th:data-title="${u.name}" th:onclick="deleteInfo(this.getAttribute('data-id'),this.getAttribute('data-title'))" >XOÁ</button>
-        </td>
+<body style="background-color: rgb(30, 30, 30);">
+<div class="wrap">
+    <div class="bg-header">
+        <div class="navbar">
+            <div class="logo">
+                <b>
+                    <p style="color: #ff5722;font-size: 25px;">TECH<span style="color: white;">TALK</span></p>
+                </b>
+            </div>
+            <div class="wrap-icon d-flex ">
+                <div class="icon d-flex justify-content-center aligns-item-center" style="margin-right: 40px;">
+                    <i class="fa-brands fa-twitter"></i>
+                    <i class="fa-brands fa-apple"></i>
+                    <i class="fa-brands fa-facebook-f"></i>
+                    <i class="fa-solid fa-envelope"></i>
+                    <i class="fa-brands fa-pinterest-p"></i>
+                    <i class="fa-brands fa-unity"></i>
+                    <i class="fa-brands fa-digg"></i>
+                </div>
+                <div class="user d-flex">
+                    <i class="fa-solid fa-bell"></i>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/showDuyetBai}"><i class="fa-solid fa-list-check"></i></a>
+                    </div>
+                    <a th:href="@{/user/showMylistBlog}"><i class="fa-solid fa-user"></i></a>
+                    <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+
+                </div>
+            </div>
         </div>
-    </tr>
-</table>
-</body>
-</span>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <h1 class="focus-in-expand">DUYỆT BÀI VIẾT</h1>
+    </div>
+</div>
+<div class="wrap-content">
+    <a th:href="@{/showListBlog}">
+        <button class="btn" type="button" style="margin: 20px 0">Quay lại</button>
+    </a>
+    <span sec:authorize="!hasRole('ADMIN')">
+    <h1 style="text-align: center; color: red" id="quyen-truy-cap">KHÔNG CÓ QUYỀN TRUY CẬP</h1>
+    </span>
+    <span sec:authorize="hasRole('ADMIN')">
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Tiêu đề</th>
+                <th>Tác giả</th>
+                <th>Thời gian</th>
+                <th>Action</th>
+            </tr>
+            <tr th:each="u,loop : ${blog}">
+                <div th:unless="${u.getStatus()}">
+                <td th:text="${loop.count}"></td>
+                <td> <a th:href="@{/{id}/viewBlog(id = ${u.id})}" th:text="${u.name}"></a></td>
+                <td th:text="${u.author}"></td>
+                <td th:text="${u.getCreationDate()}"></td>
+                <td>
+                    <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal2"
+                    th:data-id="${u.id}" th:data-title="${u.name}"
+                    th:onclick="deleteInfo2(this.getAttribute('data-id'),this.getAttribute('data-title'))">Duyệt</button>
+                    <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal"
+                    th:data-id="${u.id}" th:data-title="${u.name}"
+                    th:onclick="deleteInfo(this.getAttribute('data-id'),this.getAttribute('data-title'))">XOÁ</button>
+                </td>
+                </div>
+            </tr>
+        </table>
+    </span>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form action="/deleteDb" method="get">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="exampleModalLabel"><b>XOÁ BÀI</b></h5>
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <input hidden name="id" id="id">
-                    <span>Do you want delete </span><span id="deleteName"></span><span>?</span>
+                    <span>Bạn có muốn xoá bài viết của </span><span id="deleteName"></span><span>?</span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Yes</button>
+                    <button type="submit" class="btn">Xác Nhận</button>
+                    <button type="button" class="btn" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
-<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form action="/xacNhanDuyetBai" method="get">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel2">Duyệt</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="exampleModalLabel2"><b>DUYỆT BÀI</b></h5>
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <input hidden name="id" id="idDuyet">
-                    <span>Xác nhận duyệt:  </span><span id="nameDuyet"></span><span>?</span>
+                    <span>Xác nhận duyệt bài của  </span><span id="nameDuyet"></span><span>?</span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Yes</button>
+                    <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+</body>
 </html>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script>
-    function deleteInfo(id,title) {
-        document.getElementById("id").value=id;
-        document.getElementById("deleteName").innerText=title;
+    function deleteInfo(id, title) {
+        document.getElementById("id").value = id;
+        document.getElementById("deleteName").innerText = title;
     }
-    function deleteInfo2(id,title) {
-        document.getElementById("idDuyet").value=id;
-        document.getElementById("nameDuyet").innerText=title;
+
+    function deleteInfo2(id, title) {
+        document.getElementById("idDuyet").value = id;
+        document.getElementById("nameDuyet").innerText = title;
     }
 
 </script>

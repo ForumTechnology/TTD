@@ -9,7 +9,6 @@ import org.springframework.validation.Validator;
 public class BlogDTO implements Validator {
     @NotBlank(message = "Not empty")
     @Size(min = 3, message = ">3 characters")
-    @Pattern(regexp = "^[a-z ]*$", message = "only contain character")
     private String name;
 
     @Size(min = 3, message = ">3 characters")
