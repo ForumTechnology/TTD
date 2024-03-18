@@ -105,9 +105,9 @@ p {
     cursor: pointer;
 }
 
-.status i:active {
-    color: #ff5722;
-}
+/*.status i:active {*/
+/*    color: #ff5722;*/
+/*}*/
 
 .comment {
     border-bottom: 1px solid #555;

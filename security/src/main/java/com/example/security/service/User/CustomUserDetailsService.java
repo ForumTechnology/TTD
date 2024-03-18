@@ -1,7 +1,7 @@
 package com.example.security.service.User;
 
-import com.example.security.model.Role;
-import com.example.security.model.User;
+import com.example.security.model.user.Role;
+import com.example.security.model.user.User;
 import com.example.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

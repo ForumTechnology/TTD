@@ -1,12 +1,10 @@
 package com.example.security.model.Blog;
 
-import com.example.security.model.User;
+import com.example.security.model.user.User;
 import jakarta.persistence.*;
-import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,7 +17,6 @@ public class Blog {
     @Lob
     @Column(columnDefinition = "TEXT")
     private String type;
-    private int likeBlog;
     private int viewBlog;
     private String author;
     private Boolean status;
@@ -31,9 +28,17 @@ public class Blog {
     public void setStatus(Boolean status) {
         this.status = status;
     }
+    @ManyToOne
+    @JoinColumn(name = "user")
+    private User user;
+    @ManyToOne
+    @JoinColumn(name = "category")
+    private Category category;
 
-
-
+    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
+    private List<CommentBlog> comments;
+    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
+    private List<LikeBlog> likes;
     @Column(name = "creation_date")
     private String creationDate;
 
@@ -57,17 +62,13 @@ public class Blog {
         this.status = false;
     }
 
+    public List<LikeBlog> getLikes() {
+        return likes;
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "user")
-    private User user;
-    @ManyToOne
-    @JoinColumn(name = "category")
-    private Category category;
-
-    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
-    private List<CommentBlog> comments;
-
+    public void setLikes(List<LikeBlog> likes) {
+        this.likes = likes;
+    }
 
     public Long getId() {
         return id;
@@ -125,13 +126,7 @@ public class Blog {
         this.comments = comments;
     }
 
-    public int getLikeBlog() {
-        return likeBlog;
-    }
 
-    public void setLikeBlog(int likeBlog) {
-        this.likeBlog = likeBlog;
-    }
 
     public int getViewBlog() {
         return viewBlog;

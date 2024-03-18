@@ -393,8 +393,6 @@
                         <div class="modal-body">
                             <form th:action="@{/createBlog}" th:object="${blog}" method="post">
                                 <input type="hidden" value="0" th:field="*{viewBlog}">
-                                <input type="hidden" value="0" th:field="*{likeBlog}">
-
                                 <div class="mb-3">
                                     <label for="inputName" class="form-label">Tiêu đề:</label>
                                     <input type="text" class="form-control" th:field="*{name}" id="inputName">

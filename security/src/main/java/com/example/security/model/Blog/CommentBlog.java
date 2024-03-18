@@ -1,6 +1,6 @@
 package com.example.security.model.Blog;
 
-import com.example.security.model.User;
+import com.example.security.model.user.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

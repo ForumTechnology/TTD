@@ -1,4 +1,4 @@
-package com.example.security.model;
+package com.example.security.model.user;
 
 import jakarta.persistence.*;
 

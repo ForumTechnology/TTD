@@ -1,12 +1,10 @@
 package com.example.security.controller;
 
-import com.example.security.model.Blog.Blog;
-import com.example.security.model.Blog.BlogDTO;
-import com.example.security.model.Blog.Category;
-import com.example.security.model.Blog.CommentBlog;
-import com.example.security.model.User;
+import com.example.security.model.Blog.*;
+import com.example.security.model.user.User;
 import com.example.security.service.BlogService.IBlogService;
 import com.example.security.service.BlogService.ICommentBlogService;
+import com.example.security.service.BlogService.ILikeBlogService;
 import com.example.security.service.CategoryService.ICategoryService;
 import com.example.security.service.User.IUserService;
 import jakarta.validation.Valid;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class BlogController {
@@ -38,6 +34,8 @@ public class BlogController {
     private ICategoryService iCategoryService;
     @Autowired
     private ICommentBlogService iCommentBlogService;
+    @Autowired
+    private ILikeBlogService iLikeBlogService;
 
 
     Boolean temp = true, tempDelete = true;
@@ -87,6 +85,7 @@ public class BlogController {
         model.addAttribute("categoryList", iCategoryService.finAll());
         ModelAndView mV = new ModelAndView("/home");
         mV.addObject("pages", listPage);
+        mV.addObject("likes",iLikeBlogService.findAllLikes());
         mV.addObject("cate", iCategoryService.finAll());
         mV.addObject("list", blogs);
         mV.addObject("user",user);
@@ -100,6 +99,7 @@ public class BlogController {
             mV.addObject("messDelete", messDelete);
             tempDelete = true;
         }
+
         return mV;
     }
     @RequestMapping("/searchBlog")
@@ -155,11 +155,18 @@ public class BlogController {
     public ModelAndView viewBlog(@PathVariable("id") Long id, Principal principal){
         ModelAndView mv = new ModelAndView("viewBlog");
         Blog blog = iBlogService.findOne(id);
-        User userTemp = new User();
         String email = principal.getName();
-        userTemp.setEmail(email);
+
 
         User user = iUserService.findUserByEmail(email);
+
+        List<LikeBlog> list = user.getLikes();
+        List<LikeBlog> likeBlogs = new ArrayList<>();
+        for (LikeBlog likeBlog : list) {
+            if (likeBlog.getBlog().getId().equals(blog.getId())) {
+                likeBlogs.add(likeBlog);
+            }
+        }
 
         //them luot view
         congLuotXem(id);
@@ -176,8 +183,9 @@ public class BlogController {
         }
 
         mv.addObject("userBlog",user);
-        mv.addObject("user",userTemp);
+
         mv.addObject("comment",iCommentBlogService.findAllCommentBlogs());
+        mv.addObject("likes",likeBlogs);
         mv.addObject("blog",blog);
         mv.addObject("category",iCategoryService.finAll());
         return mv;
@@ -225,7 +233,6 @@ public class BlogController {
         User user = iUserService.findUserByEmail(email);
         // Chuyển đổi dữ liệu từ DTO -> Entity
         BeanUtils.copyProperties(blog, s);
-        s.setLikeBlog(0);
         s.setViewBlog(0);
         s.setUser(user);
         s.setAuthor(email);
@@ -265,6 +272,21 @@ public class BlogController {
         commentBlog.setUser(iUserService.findUserById(idUser).get());
         iCommentBlogService.save(commentBlog);
         temp = false;
+        return mv;
+    }
+    @GetMapping("/{idBlog}/{idUser}/likeBlog")
+    public ModelAndView likeBlog(@PathVariable("idBlog") Long idBlog,@PathVariable("idUser") Long idUser,Model model) {
+        ModelAndView mv = new ModelAndView("redirect:/" + idBlog + "/viewBlog");
+        LikeBlog likeBlog = new LikeBlog();
+        likeBlog.setBlog(iBlogService.findOne(idBlog));
+        likeBlog.setUser(iUserService.findUserById(idUser).get());
+        iLikeBlogService.save(likeBlog);
+        return mv;
+    }
+    @GetMapping("/{idBlog}/{idUser}/deleteLikeBlog")
+    public ModelAndView deleteLikeBlog(@PathVariable("idBlog") Long idBlog,@PathVariable("idUser") Long idUser,Model model) {
+        ModelAndView mv = new ModelAndView("redirect:/" + idBlog + "/viewBlog");
+        iLikeBlogService.delete(iLikeBlogService.findByUserIdAndBlogId(idUser,idBlog).getId());
         return mv;
     }
     @GetMapping("/deleteComment")

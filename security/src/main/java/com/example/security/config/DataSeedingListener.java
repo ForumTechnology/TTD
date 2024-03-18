@@ -2,12 +2,11 @@ package com.example.security.config;
 
 import com.example.security.common.EncryptPasswordUtils;
 import com.example.security.model.Blog.Category;
-import com.example.security.model.Role;
-import com.example.security.model.User;
+import com.example.security.model.user.Role;
+import com.example.security.model.user.User;
 import com.example.security.repository.ICategoryRepository;
 import com.example.security.repository.RoleRepository;
 import com.example.security.repository.UserRepository;
-import com.example.security.service.CategoryService.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

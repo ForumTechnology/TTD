@@ -72,7 +72,8 @@
         <h1 class="focus-in-expand">CHI TIẾT BÀI VIẾT</h1>
     </div>
 
-    <div th:if="${messComment}" style="position: absolute; top: 0;right: 0" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div th:if="${messComment}" style="position: absolute; top: 0;right: 0" class="toast show" role="alert"
+         aria-live="assertive" aria-atomic="true">
         <div class="toast-header d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
                 <i class="fa-regular fa-bell"></i>
@@ -85,7 +86,8 @@
             <p th:text="${messComment}"></p>
         </div>
     </div>
-    <div th:if="${messDelete}" style="position: absolute; top: 0;right: 0" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div th:if="${messDelete}" style="position: absolute; top: 0;right: 0" class="toast show" role="alert"
+         aria-live="assertive" aria-atomic="true">
         <div class="toast-header d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
                 <i class="fa-regular fa-bell"></i>
@@ -99,9 +101,9 @@
         </div>
     </div>
 </div>
-    <a th:href="@{/showListBlog}">
-        <button class="btn" type="button" >Quay lại</button>
-    </a>
+<a th:href="@{/showListBlog}">
+    <button class="btn" type="button">Quay lại</button>
+</a>
 <div class="wrap-news">
     <div class="d-flex justify-content-between">
         <h1>
@@ -109,7 +111,7 @@
         </h1>
         <div>
             <!--button xoa blog-->
-            <div th:if="${user.email == blog.user.email}">
+            <div th:if="${userBlog.email == blog.user.email}">
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                         data-target="#exampleModalDelete"
                         th:data-id="${blog.id}" th:data-title="${blog.name}"
@@ -118,7 +120,7 @@
                 </button>
             </div>
             <div sec:authorize="hasRole('ADMIN')">
-                <div th:if="${user.email != blog.user.email}">
+                <div th:if="${userBlog.email != blog.user.email}">
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                             data-target="#exampleModalDelete"
                             th:data-id="${blog.id}" th:data-title="${blog.name}"
@@ -150,7 +152,16 @@
     </div>
     <hr style="color: white;">
     <div class="status d-flex justify-content-around">
-        <i class="fa-solid fa-heart"></i>
+        <div th:if="${likes.isEmpty()}">
+            <a th:href="@{/{idBlog}/{idUser}/likeBlog(idUser = ${userBlog.id}, idBlog = ${blog.id})}">
+                <i class="fa-solid fa-heart"></i>
+            </a>
+        </div>
+        <div th:if="${!likes.isEmpty()}">
+            <a th:href="@{/{idBlog}/{idUser}/deleteLikeBlog(idUser = ${userBlog.id}, idBlog = ${blog.id})}">
+                <i class="fa-solid fa-heart" style="color: #ff5722"></i>
+            </a>
+        </div>
         <i class="fa-solid fa-bookmark"></i>
         <i class="fa-solid fa-flag"></i>
     </div>
@@ -159,16 +170,16 @@
 </div>
 
 
-        <div class="wrap-cmt">
-            <div th:each="c,loop : ${comment}">
-                <div th:if="${c.blog.id == blog.id}">
+<div class="wrap-cmt">
+    <div th:each="c,loop : ${comment}">
+        <div th:if="${c.blog.id == blog.id}">
             <div class="comment">
 
                 <div class="user-info d-flex justify-content-between">
 
                     <p style="color: #ff5722;" th:text="${c.user.email}"></p>
                     <span sec:authorize="hasRole('ADMIN')">
-                    <div th:if="${user.email != blog.user.email}">
+                    <div th:if="${userBlog.email != blog.user.email}">
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal"
                             th:data-id="${c.id}" th:data-idBlogg="${c.blog.getId()}"
                             th:onclick="deleteInfo(this.getAttribute('data-id'),this.getAttribute('data-idBlogg'))">XOÁ</button>
@@ -176,7 +187,7 @@
                 </span>
                     <span sec:authorize="hasRole('USER')">
 
-                        <div th:if="${c.user.email == user.email}">
+                        <div th:if="${c.user.email == userBlog.email}">
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target="#exampleModal"
                                     th:data-id="${c.id}" th:data-idBlogg="${c.blog.getId()}"
@@ -224,7 +235,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel"><b>XOÁ COMMENT</b></h5>
-                        <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">

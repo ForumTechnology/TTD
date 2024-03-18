@@ -1,6 +1,6 @@
 package com.example.security.service.User;
 
-import com.example.security.model.User;
+import com.example.security.model.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

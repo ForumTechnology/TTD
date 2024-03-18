@@ -1,6 +1,8 @@
-package com.example.security.model;
+package com.example.security.model.user;
 
 import com.example.security.model.Blog.Blog;
+import com.example.security.model.Blog.CommentBlog;
+import com.example.security.model.Blog.LikeBlog;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -23,7 +25,10 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private List<Role> roles = new ArrayList<>();
-
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<CommentBlog> comments;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<LikeBlog> likes;
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Blog> blogs;
     private Boolean status;
@@ -39,6 +44,21 @@ public class User {
         this.status = status;
     }
 
+    public List<CommentBlog> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentBlog> comments) {
+        this.comments = comments;
+    }
+
+    public List<LikeBlog> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<LikeBlog> likes) {
+        this.likes = likes;
+    }
 
     public User(Long id, String email, String password, List<Role> roles, List<Blog> blogs, Boolean status) {
         this.id = id;
