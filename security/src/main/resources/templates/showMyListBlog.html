@@ -338,16 +338,16 @@
                 <div class="user d-flex">
                     <i class="fa-solid fa-bell"></i>
 
-                    <!--                    icon duyet bai-->
-                    <div sec:authorize="hasRole('ADMIN')">
-                        <a class="icon-container" th:href="@{/showDuyetBai}">
-                            <i class="fa-solid fa-list-check"></i>
-                            <!--                                số bài viết cần duyệt-->
-                            <div th:if="${!listDuyetBai.isEmpty()}">
-                                <span class="badge" th:text="${listDuyetBai.size()}"></span>
-                            </div>
-                        </a>
-                    </div>
+                    <!--                    &lt;!&ndash;                    icon duyet bai&ndash;&gt;-->
+                    <!--                    <div sec:authorize="hasRole('ADMIN')">-->
+                    <!--                        <a class="icon-container" th:href="@{/showDuyetBai}">-->
+                    <!--                            <i class="fa-solid fa-list-check"></i>-->
+                    <!--                            &lt;!&ndash;                                số bài viết cần duyệt&ndash;&gt;-->
+                    <!--                            <div th:if="${!listDuyetBai.isEmpty()}">-->
+                    <!--                                <span class="badge" th:text="${listDuyetBai.size()}"></span>-->
+                    <!--                            </div>-->
+                    <!--                        </a>-->
+                    <!--                    </div>-->
 
                     <a th:href="@{/user/showMylistBlog}"><i class="fa-solid fa-user"></i></a>
                     <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i></a>
@@ -357,7 +357,7 @@
         <h1 class="focus-in-expand">THÔNG TIN CÁ NHÂN</h1>
     </div>
 </div>
-<a th:href="@{/showListBlog}">
+<a th:href="@{/showListBlog}" style="margin-left: 250px">
     <button class="btn" type="button" style="margin: 20px 0">Quay lại</button>
 </a>
 <div>
@@ -409,7 +409,7 @@
             <tr>
                 <th class="topic">TIÊU ĐỀ</th>
                 <th class="view">LƯỢT XEM</th>
-                <th class="like">LƯỢT THÍCH</th>
+                <th class="like">LƯỢT BÌNH LUẬN</th>
                 <th class="date">NGÀY ĐĂNG</th>
             </tr>
             <tr th:each="blog,loop : ${blogs}">
@@ -419,8 +419,8 @@
                         <div class="d-flex">
                             <div th:each="c,lop : ${cate}">
                                 <p style="color: #828080; margin-right: 5px;" th:if="${blog.category.id == c.id}">Chủ
-                                    đề: <a th:href="@{{id}/searchByCategory(id=${c.id})}"><span style="color: #ff5722;"
-                                                                                                th:text="${c.name}"></span></a>
+                                    đề: <span style="color: #ff5722;"
+                                              th:text="${c.name}"></span>
                                 </p>
                             </div>
                             <p style="color: #828080;">Bởi <span style="color: red;" th:text="${blog.author}"></span>
@@ -429,6 +429,8 @@
 
                     </td>
                     <td th:text="${blog.viewBlog}"></td>
+                    <td th:text="${blog.comments.size()}"></td>
+
                     <td>
                         <p th:text="${blog.getCreationDate()}"></p>
                     </td>

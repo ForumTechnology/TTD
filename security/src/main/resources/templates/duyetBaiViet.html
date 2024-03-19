@@ -228,15 +228,15 @@
                     <i class="fa-solid fa-bell"></i>
 
                     <!--                    icon duyet bai-->
-                    <div sec:authorize="hasRole('ADMIN')">
-                        <a class="icon-container" th:href="@{/showDuyetBai}">
-                            <i class="fa-solid fa-list-check"></i>
-                            <!--                                số bài viết cần duyệt-->
-                            <div th:if="${!listDuyetBai.isEmpty()}">
-                                <span class="badge" th:text="${listDuyetBai.size()}"></span>
-                            </div>
-                        </a>
-                    </div>
+<!--                    <div sec:authorize="hasRole('ADMIN')">-->
+<!--                        <a class="icon-container" th:href="@{/showDuyetBai}">-->
+<!--                            <i class="fa-solid fa-list-check"></i>-->
+<!--                            &lt;!&ndash;                                số bài viết cần duyệt&ndash;&gt;-->
+<!--                            <div th:if="${!listDuyetBai.isEmpty()}">-->
+<!--                                <span class="badge" th:text="${listDuyetBai.size()}"></span>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>-->
 
                     <a th:href="@{/user/showMylistBlog}"><i class="fa-solid fa-user"></i></a>
                     <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i></a>
@@ -318,8 +318,8 @@
                     <span>Xác nhận duyệt bài của  </span><span id="nameDuyet"></span><span>?</span>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Xác Nhận</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn">Xác Nhận</button>
+                    <button type="button" class="btn" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </form>

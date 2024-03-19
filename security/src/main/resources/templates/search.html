@@ -61,7 +61,7 @@
                     <i class="fa-brands fa-unity"></i>
                     <i class="fa-brands fa-digg"></i>
                 </div>
-                <div class="user">
+                <div class="user d-flex">
                     <i class="fa-solid fa-bell"></i>
                     <div sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{/showDuyetBai}"><i class="fa-solid fa-list-check"></i></a>
@@ -72,17 +72,14 @@
                 </div>
             </div>
         </div>
-        <h1 class="focus-in-expand">DIỄN ĐÀN CÔNG NGHỆ</h1>
+        <h1 class="focus-in-expand">TÌM KIẾM </h1>
     </div>
 </div>
-<div class="container-search d-flex">
-    <form method="get" th:action="@{/searchBlog}" style="display: flex;align-items: center">
-        <input type="text" placeholder="Nhập tên chủ đề bạn muốn tìm kiếm" name="inputSearch" style="margin-right: 10px">
-        <button type="submit">TÌM KIẾM</button>
-    </form>
-</div>
 
-<div class="wrap-content">
+<div class="wrap-content" style="margin: 30px auto !important;">
+    <a th:href="@{/showListBlog}">
+        <button class="btn" type="button" style="margin: 20px 0">Quay lại</button>
+    </a>
     <div class="content">
         <table>
             <tr>
@@ -92,7 +89,7 @@
                 <th class="date">NGÀY ĐĂNG</th>
             </tr>
             <div th:if="${searchBlog.size() == 0}">
-                <h1 style="text-align: center" > Không có Blog cần tìm </h1></div>
+                <h1 style="text-align: center;color: #ff5722" > Không có bài viết cần tìm </h1></div>
             <tr th:each="blog,loop : ${searchBlog}">
                 <div th:if="${blog.getStatus()}">
                     <td class="d-flex flex-column">

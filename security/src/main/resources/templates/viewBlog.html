@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -38,6 +37,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
           integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <style>
+        .form-check{
+            margin: 5px 10px;
+            padding: 5px 10px;
+        }
+        .modal-dialog {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .form-check-input{
+            border-color: #333333;
+        }
+    </style>
 
 </head>
 
@@ -66,15 +79,15 @@
                     <i class="fa-solid fa-bell"></i>
 
                     <!--                    icon duyet bai-->
-                    <div sec:authorize="hasRole('ADMIN')">
-                        <a class="icon-container" th:href="@{/showDuyetBai}">
-                            <i class="fa-solid fa-list-check"></i>
-                            <!--                                số bài viết cần duyệt-->
-                            <div th:if="${!listDuyetBai.isEmpty()}">
-                                <span class="badge" th:text="${listDuyetBai.size()}"></span>
-                            </div>
-                        </a>
-                    </div>
+<!--                    <div sec:authorize="hasRole('ADMIN')">-->
+<!--                        <a class="icon-container" th:href="@{/showDuyetBai}">-->
+<!--                            <i class="fa-solid fa-list-check"></i>-->
+<!--                            &lt;!&ndash;                                số bài viết cần duyệt&ndash;&gt;-->
+<!--                            <div th:if="${!listDuyetBai.isEmpty()}">-->
+<!--                                <span class="badge" th:text="${listDuyetBai.size()}"></span>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>-->
 
                     <a th:href="@{/user/showMylistBlog}"><i class="fa-solid fa-user"></i></a>
                     <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i></a>
@@ -174,8 +187,23 @@
                 <i class="fa-solid fa-heart" style="color: #ff5722"></i>
             </a>
         </div>
-        <i class="fa-solid fa-bookmark"></i>
-        <i class="fa-solid fa-flag"></i>
+        <i class="fa-solid fa-bookmark" id="liveToastBtn"></i>
+            <div style="position: absolute; top: 0;right: 0" id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-regular fa-bell" style="color: black"></i>
+                        <strong class="me-auto"> THÔNG BÁO </strong>
+                        <i class="fa-regular fa-bell" style="color: black"></i>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <p>Bạn đã lưu bài viết</p>
+                </div>
+            </div>
+
+        <i class="fa-solid fa-flag" data-bs-toggle="modal" data-bs-target="#report"></i>
+        <i class="fa-solid fa-share"></i>
     </div>
 
 
@@ -263,6 +291,61 @@
         </form>
     </div>
 </div>
+
+<!-- Report Modal -->
+<div class="modal fade" id="report" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2  class="modal-title" id="reportModal">BÁO CÁO</h2>
+            </div>
+            <div class="modal-body">
+                <h3>
+                    Hãy chọn vấn đề:
+                </h3>
+                <form>
+                    <div class="d-flex flex-column">
+                        <div class="form-check">
+                            <input class="form-check-input " type="radio" name="status" id="0">
+                            <label class="form-check-label" for="0">Bài đăng, bình luận hoặc nội dung khác mà người dùng cho là không phù hợp hoặc gây phản cảm.</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="status" id="1">
+                            <label class="form-check-label" for="1">Nội dung spam, quảng cáo không phù hợp hoặc vi phạm các quy định về quảng cáo trên diễn đàn.</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="status" id="2">
+                            <label class="form-check-label" for="2">Hành vi quấy rối, phân biệt đối xử hoặc gây phiền hà đối với bản thân hoặc thành viên khác trong cộng đồng.</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="status" id="3">
+                            <label class="form-check-label" for="3">Bài đăng hoặc thông tin không chính xác, thiếu chính xác hoặc tin giả được chia sẻ trên diễn đàn.</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="status" id="4">
+                            <label class="form-check-label" for="4">Hoạt động hoặc nội dung vi phạm pháp luật, bao gồm vi phạm bản quyền, lạm dụng trẻ em hoặc nội dung liên quan đến tội phạm.</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="status" id="5">
+                            <label class="form-check-label" for="5">Bài đăng hoặc bình luận sử dụng ngôn ngữ không tôn trọng, châm biếm hoặc kích động.</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="status" id="6">
+                            <label class="form-check-label" for="6">Hành vi lạm dụng tài khoản hoặc gian lận, bao gồm việc sử dụng tài khoản giả mạo hoặc hack tài khoản.</label>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn " data-bs-dismiss="modal">Xác Nhận</button>
+                        <button type="button" class="btn " data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div class="wrap-cmt">
     <div class="comment">
         <div class="reply-section">
@@ -283,12 +366,17 @@
 
 
 </body>
-</html>
+<script>
+    const toastTrigger = document.getElementById('liveToastBtn')
+    const toastLiveExample = document.getElementById('liveToast')
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    if (toastTrigger) {
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+        toastTrigger.addEventListener('click', () => {
+            toastBootstrap.show()
+        })
+    }
+</script>
 <script>
     function deleteInfo(idComment, idBlog) {
         document.getElementById("idComment").value = idComment;
@@ -300,3 +388,12 @@
         document.getElementById("deleteName").innerText = title;
     }
 </script>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+
