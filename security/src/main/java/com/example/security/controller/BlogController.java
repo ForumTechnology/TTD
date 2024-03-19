@@ -85,6 +85,7 @@ public class BlogController {
         model.addAttribute("categoryList", iCategoryService.finAll());
         ModelAndView mV = new ModelAndView("/home");
         mV.addObject("pages", listPage);
+        mV.addObject("listDuyetBai", iBlogService.findByStatusFalse());
         mV.addObject("likes",iLikeBlogService.findAllLikes());
         mV.addObject("cate", iCategoryService.finAll());
         mV.addObject("list", blogs);

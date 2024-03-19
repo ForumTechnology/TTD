@@ -50,4 +50,9 @@ public class BlogService implements IBlogService {
     public List<Blog> findByName(String name) {
         return iBlogRepository.findByName(name);
     }
+
+    @Override
+    public List<Blog> findByStatusFalse () {
+        return iBlogRepository.findByStatusFalse();
+    }
 }

@@ -259,6 +259,22 @@
         .wrap-icon {
             width: 500px
         }
+
+        .icon-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff5722;
+            color: white;
+            border-radius: 50%;
+            padding: 3px 6px;
+            font-size: 12px;
+        }
     </style>
 
 </head>
@@ -286,11 +302,15 @@
                 <div class="user d-flex">
                     <i class="fa-solid fa-bell"></i>
 
-<!--                    icon duyet bai-->
-                    <div th:each="blogDuyet,loop : ${list}" th:if="${blogDuyet.status == false}">
-                        <div sec:authorize="hasRole('ADMIN')">
-                            <a th:href="@{/showDuyetBai}"><i class="fa-solid fa-list-check"></i></a>
-                        </div>
+                    <!--                    icon duyet bai-->
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <a class="icon-container" th:href="@{/showDuyetBai}">
+                            <i class="fa-solid fa-list-check"></i>
+                            <!--                                số bài viết cần duyệt-->
+                            <div th:if="${!listDuyetBai.isEmpty()}">
+                                <span class="badge" th:text="${listDuyetBai.size()}"></span>
+                            </div>
+                        </a>
                     </div>
 
                     <a th:href="@{/user/showMylistBlog}"><i class="fa-solid fa-user"></i></a>

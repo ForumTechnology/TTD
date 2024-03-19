@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface IBlogRepository extends JpaRepository<Blog,Long> {
     Page<Blog> findAll(Pageable pageable);
-
+    List<Blog> findByStatusFalse();
     @Query("SELECT b FROM Blog b WHERE b.name LIKE %:name%")
     List<Blog> findByName(@Param("name") String name);
 

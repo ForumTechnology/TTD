@@ -14,4 +14,5 @@ public interface IBlogService {
     void delete(long id);
     void save(Blog blog);
     List<Blog> findByName(String name);
+    List<Blog> findByStatusFalse();
 }
