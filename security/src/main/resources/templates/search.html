@@ -88,7 +88,7 @@
             <tr>
                 <th class="topic">TIÊU ĐỀ</th>
                 <th class="view">LƯỢT XEM</th>
-                <th class="like">LƯỢT THÍCH</th>
+                <th class="like">LƯỢT BÌNH LUẬN</th>
                 <th class="date">NGÀY ĐĂNG</th>
             </tr>
             <div th:if="${searchBlog.size() == 0}">
@@ -106,7 +106,7 @@
 
                     </td>
                     <td th:text="${blog.viewBlog}"></td>
-                    <td th:text="${blog.likeBlog}"></td>
+                    <td th:text="${blog.comments.size()}"></td>
                     <td>
                         <p th:text="${blog.getCreationDate()}"></p>
                     </td>

@@ -337,12 +337,20 @@
                 </div>
                 <div class="user d-flex">
                     <i class="fa-solid fa-bell"></i>
-                    <div sec:authorize="hasRole('ADMIN')">
-                        <a th:href="@{/showDuyetBai}"><i class="fa-solid fa-list-check"></i></a>
-                    </div>
-                    <a th:href="@{/user/showMylistBlog}"><i class="fa-solid fa-user"></i></a>
-                    <a href="/"><i class="fa-solid fa-right-from-bracket"></i></a>
 
+                    <!--                    icon duyet bai-->
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <a class="icon-container" th:href="@{/showDuyetBai}">
+                            <i class="fa-solid fa-list-check"></i>
+                            <!--                                số bài viết cần duyệt-->
+                            <div th:if="${!listDuyetBai.isEmpty()}">
+                                <span class="badge" th:text="${listDuyetBai.size()}"></span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <a th:href="@{/user/showMylistBlog}"><i class="fa-solid fa-user"></i></a>
+                    <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i></a>
                 </div>
             </div>
         </div>

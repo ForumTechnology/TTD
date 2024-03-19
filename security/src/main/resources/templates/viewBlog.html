@@ -62,10 +62,22 @@
                     <i class="fa-brands fa-unity"></i>
                     <i class="fa-brands fa-digg"></i>
                 </div>
-                <div class="user">
+                <div class="user d-flex">
                     <i class="fa-solid fa-bell"></i>
-                    <a th:href="@{/login}"><i class="fa-solid fa-user"></i></a>
-                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    <!--                    icon duyet bai-->
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <a class="icon-container" th:href="@{/showDuyetBai}">
+                            <i class="fa-solid fa-list-check"></i>
+                            <!--                                số bài viết cần duyệt-->
+                            <div th:if="${!listDuyetBai.isEmpty()}">
+                                <span class="badge" th:text="${listDuyetBai.size()}"></span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <a th:href="@{/user/showMylistBlog}"><i class="fa-solid fa-user"></i></a>
+                    <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i></a>
                 </div>
             </div>
         </div>
@@ -178,21 +190,21 @@
                 <div class="user-info d-flex justify-content-between">
 
                     <p style="color: #ff5722;" th:text="${c.user.email}"></p>
-                    <span sec:authorize="hasRole('ADMIN')">
-                    <div th:if="${userBlog.email != blog.user.email}">
+                    <div sec:authorize="hasRole('ADMIN')">
+<!--                    <div th:if="${userBlog.email == blog.user.email}">-->
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal"
                             th:data-id="${c.id}" th:data-idBlogg="${c.blog.getId()}"
                             th:onclick="deleteInfo(this.getAttribute('data-id'),this.getAttribute('data-idBlogg'))">XOÁ</button>
-                    </div>
-                </span>
-                    <span sec:authorize="hasRole('USER')">
+<!--                    </div>-->
+                </div>
+                    <div sec:authorize="hasRole('USER') and !hasRole('ADMIN')">
                         <div th:if="${c.user.email == userBlog.email}">
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target="#exampleModal"
                                     th:data-id="${c.id}" th:data-idBlogg="${c.blog.getId()}"
                                     th:onclick="deleteInfo(this.getAttribute('data-id'),this.getAttribute('data-idBlogg'))">XOÁ</button>
                         </div>
-                </span>
+                </div>
                 </div>
                 <p class="comment-text" th:text="${c.content}"></p>
                 <p class="comment-time" th:text="${c.getDateTime()}"></p>
