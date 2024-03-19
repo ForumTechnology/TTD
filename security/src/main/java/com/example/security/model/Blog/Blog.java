@@ -60,6 +60,7 @@ public class Blog {
     public Blog() {
          this.creationDate = formatDate();
         this.status = false;
+        this.likes = null;
     }
 
     public List<LikeBlog> getLikes() {
