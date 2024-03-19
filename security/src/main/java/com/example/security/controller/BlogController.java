@@ -161,21 +161,23 @@ public class BlogController {
         User user = iUserService.findUserByEmail(email);
 
         List<LikeBlog> list = user.getLikes();
-        List<LikeBlog> likeBlogs = new ArrayList<>();
+
+        //kiem tra da like chua
+        boolean liked = false;
         for (LikeBlog likeBlog : list) {
             if (likeBlog.getBlog().getId().equals(blog.getId())) {
-                likeBlogs.add(likeBlog);
+                liked=true;
             }
         }
 
         //them luot view
         congLuotXem(id);
+
         if (temp.equals(false)){
             String messComment = "Bình luận thành công!!";
             mv.addObject("messComment", messComment);
             temp = true;
         }
-
         if (tempDelete.equals(false)){
             String messDelete = "Xóa thành công!!";
             mv.addObject("messDelete", messDelete);
@@ -183,9 +185,8 @@ public class BlogController {
         }
 
         mv.addObject("userBlog",user);
-
         mv.addObject("comment",iCommentBlogService.findAllCommentBlogs());
-        mv.addObject("likes",likeBlogs);
+        mv.addObject("likes",liked);
         mv.addObject("blog",blog);
         mv.addObject("category",iCategoryService.finAll());
         return mv;
@@ -231,9 +232,11 @@ public class BlogController {
         Blog s = new Blog();
         Category category = iCategoryService.findById(blog.getCategory());
         User user = iUserService.findUserByEmail(email);
+
         // Chuyển đổi dữ liệu từ DTO -> Entity
         BeanUtils.copyProperties(blog, s);
         s.setViewBlog(0);
+
         s.setUser(user);
         s.setAuthor(email);
         s.setCategory(category);

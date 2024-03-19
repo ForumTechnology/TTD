@@ -4,9 +4,11 @@ import com.example.security.common.EncryptPasswordUtils;
 import com.example.security.model.Blog.Blog;
 import com.example.security.model.user.Role;
 import com.example.security.model.user.User;
+import com.example.security.repository.ICategoryRepository;
 import com.example.security.repository.RoleRepository;
 import com.example.security.repository.UserRepository;
 import com.example.security.service.BlogService.IBlogService;
+import com.example.security.service.CategoryService.ICategoryService;
 import com.example.security.service.User.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,9 +30,11 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    IBlogService iBlogService;@Autowired
+    IBlogService iBlogService;
+    @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private ICategoryService iCategoryService;
     @Autowired
     RoleRepository roleRepository;
     @Autowired
@@ -52,6 +56,7 @@ Boolean updated = true;
         List<Blog> blogs = user.getBlogs();
         model.addAttribute("user",user);
         model.addAttribute("blogs",blogs);
+        model.addAttribute("cate",iCategoryService.finAll());
         if (updated.equals(false)){
             model.addAttribute("message" , "Cập nhật thành công");
         }
@@ -83,25 +88,6 @@ Boolean updated = true;
         return "redirect:/user/showMylistBlog";
     }
 
-//    @PostMapping("/createBlog")
-//    public String create(@Valid @ModelAttribute("blog") BlogDTO blog, BindingResult bindingResult, Model model, Principal principal) {
-//        new BlogDTO().validate(blog, bindingResult);
-//        String email = principal.getName();
-////        if (bindingResult.hasErrors()) {
-////            model.addAttribute(iCategoryService.finAll());
-////            return "createBlog";
-////        }
-//        Blog s = new Blog();
-//        Category category = iCategoryService.findById(blog.getCategory());
-//        User user = iUserService.findUserByEmail(email);
-//        // Chuyển đổi dữ liệu từ DTO -> Entity
-//        BeanUtils.copyProperties(blog, s);
-//        s.setUser(user);
-//        s.setAuthor(email);
-//        s.setCategory(category);
-//        iBlogService.addNewBlog(s);
-//        return "redirect:/showListBlog";
-//    }
 @GetMapping("/showRegister")
 public String showRegister(Model model) {
     model.addAttribute("user", new User());

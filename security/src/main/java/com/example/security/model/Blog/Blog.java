@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -60,7 +61,7 @@ public class Blog {
     public Blog() {
          this.creationDate = formatDate();
         this.status = false;
-        this.likes = null;
+
     }
 
     public List<LikeBlog> getLikes() {

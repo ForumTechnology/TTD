@@ -18,17 +18,17 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<CommentBlog> comments;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<LikeBlog> likes;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE )
     @JoinTable(
             name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private List<Role> roles = new ArrayList<>();
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<CommentBlog> comments;
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<LikeBlog> likes;
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Blog> blogs;
     private Boolean status;
